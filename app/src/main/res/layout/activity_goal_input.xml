@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GoalInputActivity">
+
+    <EditText
+        android:id="@+id/goalName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="100dp"
+        android:inputType="textPersonName"
+        android:padding="20dp"
+        android:hint="@string/goal_hint"
+        />
+
+    <EditText
+        android:id="@+id/goalDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:padding="20dp"
+        android:hint="@string/goal_duration_hint" />
+
+    <Button
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        android:id="@+id/saveGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:text="@string/save" />
+
+
+
+</LinearLayout>
