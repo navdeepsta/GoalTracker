@@ -1,25 +1,36 @@
-package com.navdeep.goaltracker;
-
+/* Applying knowledge gained from Code Clean
+*  Converting names to meaningful, informative and unambiguous names
+*/
+package com.navdeep.goaltracker.Interfaces;
 import android.content.Context;
 
+import com.navdeep.goaltracker.GoalTime;
+import com.navdeep.goaltracker.POJOs.Goal;
 import java.util.ArrayList;
 
-interface GoalModelViewPresenter {
+public interface GoalModelViewPresenter {
     interface GoalPresenter{
-        boolean createGoal(String goalName, int duration, MilestonePresenter milestonePresenter, GoalTimer goalTimer);
-        ArrayList<Goal> getGoalsList();
-
+        void createGoal(String goalName, String goalStartTime, int duration, int goalProgress);
+        void deleteGoals(ArrayList<Goal> goals);
+        ArrayList<Goal> getGoals();
+        void incrementGoalProgress(Goal goal);
+        void initGoalDuration();
+        int calculateGoalDuration();
+        void createGoalTrackerDatabase();
+        void closeGoalTrackerDatabase();
+        void initiateMilestones();
     }
-
     interface GoalView{
-        void displayGoals(ArrayList<Goal> goals);
+        void displayGoals();
         Context getContext();
     }
     interface GoalInputView{
-
+       void displayGoalDuration(GoalTime goalTime);
     }
     interface GoalModel{
-        boolean insertGoal(Goal goal);
-        ArrayList<Goal> fetchGoals();
+        void insertGoal(Goal goal);
+        ArrayList<Goal> getGoals();
+        void updateGoal(Goal goal);
+        void deleteGoals(ArrayList<Goal> goals);
     }
 }
