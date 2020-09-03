@@ -14,32 +14,42 @@ import java.util.Calendar;
 import java.util.Iterator;
 
 public class MilestonePresenter implements MilestoneModelViewPresenter.MilestonePresenter, Serializable {
-    private MilestoneModelViewPresenter.MilestoneView mMilestoneView;
-    private MilestoneModelViewPresenter.MilestoneInputView mMilestoneInputView;
+    private static MilestoneModelViewPresenter.MilestoneView mMilestoneView;
+    private static MilestoneModelViewPresenter.MilestoneInputView mMilestoneInputView;
     private static MilestoneModelViewPresenter.MilestoneModel mMilestoneModel;
 
    //public final static String POSITION = "position";
-
-    public MilestonePresenter(){
+   private static MilestonePresenter milestonePresenter;
+   private MilestonePresenter(){
         mMilestoneModel = MilestoneModel.getMilestoneModel();
 
     }
+    public static MilestonePresenter getMilestonePresenter() {
+        if(milestonePresenter==null){
+            milestonePresenter = new MilestonePresenter();
+        }
+        return milestonePresenter;
+    }
 
-   public MilestonePresenter(MilestoneModelViewPresenter.MilestoneView view, int goalId){
-       mMilestoneView = view;
-        mMilestoneView.displayMilestones(getMilestones(goalId));
+
+    public static MilestonePresenter getMilestonePresenter(MilestoneModelViewPresenter.MilestoneView view, int goalId){
+
+        mMilestoneView = view;
+        mMilestoneView.displayMilestones(milestonePresenter.getMilestones(goalId));
        // goal.getGoalTimer().milestonePresenterWithView(this);
-
+       return milestonePresenter;
     }
 
-    public MilestonePresenter(MilestoneModelViewPresenter.MilestoneInputView view){
+    public static MilestonePresenter getMilestonePresenter(MilestoneModelViewPresenter.MilestoneInputView view){
         mMilestoneInputView = view;
+        return milestonePresenter;
     }
+
 
     @Override
     public void updateMilestone(Milestone milestone) {
         mMilestoneInputView.showDescription();
-        MilestoneModel.getMilestoneModel().updateMilestoneToDatabase(milestone);
+        mMilestoneModel.updateMilestoneToDatabase(milestone);
     }
 
     @Override
@@ -70,12 +80,12 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     private void updateGoalProgress(int goalId, int goalProgress){
-        ArrayList<Goal> goals = GoalPresenter.goalPresenter.getGoals();
+        ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
         for(Iterator itr = goals.iterator(); itr.hasNext();){
             Goal goal = (Goal)itr.next();
             if(goal.getGoalId() == goalId){
                 goal.setGoalProgress(goalProgress);
-                GoalPresenter.goalPresenter.incrementGoalProgress(goal);
+                GoalPresenter.getGoalPresenter().incrementGoalProgress(goal);
             }
         }
 
@@ -84,12 +94,12 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     @Override
     public void createMilestone(int goalId, String description, String time, String title) {
         Milestone milestone = new Milestone(goalId, description, time, title);
-        MilestoneModel.getMilestoneModel().insertMilestone(milestone, goalId);
+        mMilestoneModel.insertMilestone(milestone, goalId);
     }
 
     @Override
     public void addImage(int id, Bitmap bitmap) {
-        MilestoneModel.getMilestoneModel().insertImage(id, bitmap);
+        mMilestoneModel.insertImage(id, bitmap);
     }
 
     @Override
@@ -105,7 +115,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
 
     @Override
     public ArrayList<Bitmap> getImages(int milestoneId) {
-       return MilestoneModel.getMilestoneModel().fetchImages(milestoneId);
+       return mMilestoneModel.fetchImages(milestoneId);
     }
 
     private void setGoalPreviousAndCurrentTimeToZero(Calendar previousCalendar, Calendar currentCalendar){
@@ -121,7 +131,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
 
     @Override
     public ArrayList<Milestone> getMilestones(int goadId) {
-        return MilestoneModel.getMilestoneModel().fetchMilestones(goadId);
+        return mMilestoneModel.fetchMilestones(goadId);
     }
 
     public MilestoneModelViewPresenter.MilestoneView getMileStoneView(){

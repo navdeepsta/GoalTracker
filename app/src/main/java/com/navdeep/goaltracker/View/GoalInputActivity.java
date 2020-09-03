@@ -28,7 +28,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     private Button mSaveGoal;
     private Spinner years, months, days;
     private GoalModelViewPresenter.GoalInputView goalInputView;
-    private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
+    //private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
     private GoalPresenter goalPresenter;
 
     @Override
@@ -56,7 +56,6 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
             @Override
             public void onClick(View v) {
                 int duration = goalPresenter.calculateGoalDuration();
-                milestonePresenter = new MilestonePresenter();
                 goalPresenter.createGoal(mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
                 finish();
             }
@@ -73,6 +72,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         months.setAdapter(getGoalSubDurationAdapter(goalTime.getMonths()));
         days.setAdapter(getGoalSubDurationAdapter(goalTime.getDays()));
     }
+
     private ArrayAdapter<String> getGoalSubDurationAdapter(String[] goalTimeUnit){
         ArrayAdapter<String> goalSubDuration = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_item, goalTimeUnit);

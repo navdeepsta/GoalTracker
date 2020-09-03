@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneModel {
      private ArrayList<Milestone> milestones;
      private static MilestoneModel milestoneModel = null;
-     private GoalTrackerDatabaseConnection connection;
+     private final GoalTrackerDatabaseConnection connection;
      private MilestoneModel(Context context){
         milestones = new ArrayList<>();
         connection = GoalTrackerDatabaseConnection.getConnection(context);

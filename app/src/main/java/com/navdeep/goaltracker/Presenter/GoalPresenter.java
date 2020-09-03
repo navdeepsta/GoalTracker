@@ -22,9 +22,9 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
 
     private static int goalYear, goalMonth, goalDay;
 
-    public static GoalPresenter goalPresenter;
+    private static GoalPresenter goalPresenter;
 
-    public GoalPresenter(GoalModelViewPresenter.GoalView view ){
+    private GoalPresenter(GoalModelViewPresenter.GoalView view ){
        //mGoalView = view;
         mGoalModel = new GoalModel(view.getContext());
     }
@@ -42,7 +42,9 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
         return goalPresenter;
     }
 
-
+    public static GoalPresenter getGoalPresenter(){
+        return goalPresenter;
+    }
 
     @Override
     public void createGoal(String goalName,String goalStartTime, int duration, int goalProgress) {
@@ -98,7 +100,8 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
     * */
     @Override
     public void initiateMilestones() {
-        MilestonePresenter milestonePresenter = new MilestonePresenter();
+        //Todo : understand it again anf again
+        MilestonePresenter milestonePresenter = MilestonePresenter.getMilestonePresenter();
         String currentTime = Calendar.getInstance().getTime().toString();
         ArrayList<Goal> goals = getGoals();
         for(Iterator iterator = goals.iterator(); iterator.hasNext();){

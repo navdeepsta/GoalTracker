@@ -31,7 +31,7 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
         goalId = getIntent().getIntExtra(MilestoneActivity.GOAL_ID, 0);
 
         mMilestoneListView = findViewById(R.id.goalMilestoneView);
-        milestonePresenter = new MilestonePresenter(this, goalId);
+        milestonePresenter = MilestonePresenter.getMilestonePresenter(this, goalId);
        // mMilestoneListView = findViewById(R.id.goalMilestoneView);
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override

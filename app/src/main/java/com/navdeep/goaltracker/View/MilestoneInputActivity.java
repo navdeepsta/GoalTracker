@@ -56,7 +56,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         setGoalPositionAndId();
         milestone = getMilestone();
         milestoneTimer = new MilestoneTimer();
-        milestonePresenter = new MilestonePresenter(this);
+        milestonePresenter = MilestonePresenter.getMilestonePresenter(this);
         gridView.setAdapter(new ImageAdapter(MilestoneInputActivity.this, milestone.getBitmapList()));
         setListenersOnActivityItems();
         // Hide keyboard
