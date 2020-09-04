@@ -52,14 +52,32 @@ public class MilestoneListViewAdapter extends BaseAdapter {
         convertView=inflater.inflate(R.layout.milestone_list_hold,null);
         TextView dayTitle = convertView.findViewById(R.id.dayTitle);
         TextView milestoneTitle = convertView.findViewById(R.id.milestoneTitle);
+        TextView timer = convertView.findViewById(R.id.milestoneTimer);
         Log.i("Goal Name",milestones.get(position).getDescription() +"\n");
         Log.i("Goal Name",milestones.get(position).toString());
         dayTitle.setText(milestones.get(position).toString()+" "+(++milestoneCount));
-
         milestoneTitle.setText(milestones.get(position).getTitle());
-        if(milestoneCount != milestones.size())
-        convertView.setAlpha(0.5F);
+        timer.setText(milestones.get(position).getTimer());
+        int id = milestones.get(position).getGoalId();
+        fillLastMilestoneWithColorToShowEndOfGoal(id,convertView);
+
         return convertView;
     }
+
+    private void fillLastMilestoneWithColorToShowEndOfGoal(int goalId, View convertView){
+        TextView dayTitle = convertView.findViewById(R.id.dayTitle);
+        ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
+        Goal goal = null;
+        for(Goal g : goals){
+            if(g.getGoalId() == goalId){
+                goal = g;
+            }
+        }
+        if(goal!=null && goal.getDuration() == milestoneCount) {
+            convertView.setBackgroundColor(Color.BLUE);
+            dayTitle.setBackgroundColor(Color.BLUE);
+        }
+    }
 }
+
 

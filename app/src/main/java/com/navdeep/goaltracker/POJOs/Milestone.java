@@ -7,18 +7,20 @@ public class Milestone {
     private String description;
     private String title;
     private String time;
+    private String timer;
     private ArrayList<Bitmap> bitmaps;
 
-    public Milestone(int goalId, String description, String time, String title){
+    public Milestone(int goalId, String description, String time, String title, String timer){
         this.goalId = goalId;
         this.description = description;
         this.time = time;
         this.title = title;
+        this.timer = timer;
         bitmaps = new ArrayList<>();
     }
 
-    public Milestone(int milestoneId, int goalId, String description, String time, String title){
-        this(goalId, description, time, title);
+    public Milestone(int milestoneId, int goalId, String description, String time, String title, String timer){
+        this(goalId, description, time, title, timer);
         this.milestoneId = milestoneId;
     }
 
@@ -43,6 +45,14 @@ public class Milestone {
         this.time = time;
     }
 
+    public void setTimer(String timer) {
+        this.timer = timer;
+    }
+
+    public String getTimer(){
+        return  timer;
+    }
+
     public void setTitle(String title){
         this.title = title;
     }
@@ -55,6 +65,9 @@ public class Milestone {
         return bitmaps;
     }
 
+    public int getGoalId() {
+        return goalId;
+    }
     @Override
     public String toString() {
         return  "Day ";

@@ -169,7 +169,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             @Override
             public void onClick(View v) {
                 if(milestoneTimer!=null){
-                    milestoneTimer.setSeconds(Integer.parseInt(timer.getText().toString()));
+                    milestoneTimer.setSeconds(milestoneTimer.getSeconds());
                     milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
                 }
             }
@@ -180,7 +180,9 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         saveDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                milestone.setTimer(milestoneTimer.getMilestoneTimer());
                 milestonePresenter.updateMilestone(milestone);
+
                 Toast.makeText(MilestoneInputActivity.this, "Saved",Toast.LENGTH_LONG).show();
             }
         });

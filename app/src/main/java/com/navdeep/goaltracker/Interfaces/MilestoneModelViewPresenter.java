@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public interface MilestoneModelViewPresenter {
     interface MilestonePresenter{
         void updateMilestone(Milestone milestone);
-        void createMilestones(String previousTime, String currentTime, int goalId, int duration);
-        void createMilestone(int goalId, String description, String time, String title);
+        void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer);
+        void createMilestone(int goalId, String description, String time, String title, String timer);
         void addImage(int milestoneId, Bitmap bitmap);
         void setMilestoneTime(String time);
         String getMilestoneTime();

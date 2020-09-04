@@ -40,13 +40,13 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         String title = milestone.getTitle();
         String description = milestone.getDescription();
         String time = milestone.getTime();
-
+        String timer = milestone.getTimer();
         ContentValues milestoneContentValues = new ContentValues();
         milestoneContentValues.put("GOAL_ID", goalId);
         milestoneContentValues.put("MILESTONE_TITLE", title);
         milestoneContentValues.put("MILESTONE_DESCRIPTION", description);
         milestoneContentValues.put("MILESTONE_TIME", time);
-
+        milestoneContentValues.put("MILESTONE_TIMER", timer);
         goalTrackerDatabase.insert("MILESTONE", null, milestoneContentValues);
         //Toast.makeText(context, "Goal Inserted",Toast.LENGTH_SHORT).show();
         connection.closeDatabase();
@@ -68,7 +68,7 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         Log.i("Goal id", goalId+"");
         milestones = new ArrayList<>();
         Cursor cursor = goalTrackerDatabase.query("MILESTONE",
-                new String[]{"MILESTONE_ID","GOAL_ID","MILESTONE_TITLE", "MILESTONE_DESCRIPTION", "MILESTONE_TIME"},
+                new String[]{"MILESTONE_ID","GOAL_ID","MILESTONE_TITLE", "MILESTONE_DESCRIPTION", "MILESTONE_TIME","MILESTONE_TIMER"},
                "GOAL_ID = ?" ,new String[]{String.valueOf(goalId)},null,null,null);
 
         while (cursor.moveToNext()){
@@ -77,10 +77,11 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
             String title = cursor.getString(2);
             String description = cursor.getString(3);
             String time = cursor.getString(4);
+            String timer = cursor.getString(5);
             Log.i("Milestone", milestoneId+" "+goal+""+title);
             /* TODO
             *   Alter the table to incluse milestone count */
-            milestones.add(new Milestone(milestoneId, goalId, description, time, title));
+            milestones.add(new Milestone(milestoneId, goalId, description, time, title, timer));
             Log.i("Milestone From Database", goal+"");
         }
 
@@ -98,6 +99,7 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         ContentValues milestoneValues = new ContentValues();
         milestoneValues.put("MILESTONE_TITLE", milestone.getTitle());
         milestoneValues.put("MILESTONE_DESCRIPTION", milestone.getDescription());
+        milestoneValues.put("MILESTONE_TIMER", milestone.getTimer());
         Log.d("updatedTitle", milestone.getTitle());
         goalTrackerDatabase.update("MILESTONE",
                 milestoneValues,

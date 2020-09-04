@@ -53,7 +53,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     @Override
-    public void createMilestones(String previousTime, String currentTime, int goalId, int duration) {
+    public void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer) {
         Calendar previousCalendar = GoalUtil.getCalendarObject(previousTime);
         Calendar currentCalendar = GoalUtil.getCalendarObject(currentTime);
         //  setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
@@ -63,7 +63,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         int milestoneListSize = getMilestones(goalId).size();
         for (int i = 0; i < diffmin; ++i) {
             if (milestoneListSize < duration) {
-                createMilestone(goalId, "Default", currentTime, "Title");
+                createMilestone(goalId, "Default", currentTime, "Title", timer);
                 calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
                 milestoneListSize = getMilestones(goalId).size();
             }
@@ -92,8 +92,8 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     @Override
-    public void createMilestone(int goalId, String description, String time, String title) {
-        Milestone milestone = new Milestone(goalId, description, time, title);
+    public void createMilestone(int goalId, String description, String time, String title, String timer) {
+        Milestone milestone = new Milestone(goalId, description, time, title, timer);
         mMilestoneModel.insertMilestone(milestone, goalId);
     }
 
@@ -105,6 +105,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     @Override
     public void setMilestoneTime(String time) {
         //Todo : Insert MilestoneTime into database
+
     }
 
     @Override

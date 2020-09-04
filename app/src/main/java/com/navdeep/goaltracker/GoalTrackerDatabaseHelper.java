@@ -33,6 +33,7 @@ public class GoalTrackerDatabaseHelper extends SQLiteOpenHelper {
                        + "MILESTONE_TITLE TEXT, "
                        + "MILESTONE_DESCRIPTION TEXT, "
                        + "MILESTONE_TIME TEXT, "
+                       + "MILESTONE_TIMER TEXT, "
                        + "FOREIGN KEY (GOAL_ID) "
                        + "REFERENCES GOAL(GOAL_ID) ON DELETE CASCADE);");
 
