@@ -39,9 +39,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     public static final String GOAL_ID = "goalId";
     private EditText description, title;
     private TextView timer;
-    private Button start, stop, addImage, saveDetails;
-    private GridView gridView;
-    private FrameLayout frameLayout;
+    private Button start, stop, gallery, saveDetails;
+
 
     private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
 
@@ -57,7 +56,6 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         milestone = getMilestone();
         milestoneTimer = new MilestoneTimer();
         milestonePresenter = MilestonePresenter.getMilestonePresenter(this);
-        gridView.setAdapter(new ImageAdapter(MilestoneInputActivity.this, milestone.getBitmapList()));
         setListenersOnActivityItems();
         // Hide keyboard
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -66,14 +64,12 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
 
 
     private void setContentViewItems() {
-        frameLayout = findViewById(R.id.frameLayout);
-        gridView =  findViewById(R.id.grid_imageview);
         timer = findViewById(R.id.timer);
         start = findViewById(R.id.start);
         stop = findViewById(R.id.stop);
         description = findViewById(R.id.description);
         title = findViewById(R.id.milestoneTitle);
-        addImage = findViewById(R.id.add_image);
+        gallery = findViewById(R.id.gallery);
         saveDetails = findViewById(R.id.saveDetails);
     }
 
@@ -83,7 +79,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     }
 
     private Milestone getMilestone() {
-        ArrayList<Milestone> milestones = MilestoneActivity.milestonePresenter.getMilestones(goalId);
+        ArrayList<Milestone> milestones = MilestonePresenter.getMilestonePresenter().getMilestones(goalId);
         for(Milestone milestone : milestones){
             if(milestone.getMilestoneId() == milestoneId){
                 return milestone;
@@ -95,11 +91,12 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     private void setListenersOnActivityItems() {
         setListenerOnDescriptionEditText();
         setListenerOnTitleEditText();
-        setListenerOnImageButton();
         setListenersOnStartButton();
         setListenersOnStopButton();
+        setListenerOnGalleryButton();
         setListenerOnSaveDetails();
     }
+
 
 
 
@@ -133,27 +130,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         });
     }
 
-    private void setListenerOnImageButton() {
-        addImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // ask for camera permission from the user
-                if(ContextCompat.checkSelfPermission(MilestoneInputActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                    //Toast.makeText(MilestoneInputActivity.this, "You have no permission to access camera", Toast.LENGTH_LONG).show();
-                    //Explanation
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(MilestoneInputActivity.this, Manifest.permission.CAMERA)){
-                        Toast.makeText(MilestoneInputActivity.this, "More than once asking for permission",  Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(MilestoneInputActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    }else{
-                        ActivityCompat.requestPermissions(MilestoneInputActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    }
-                }else {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                }
-            }
-        });
-    }
+
 
     private void setListenersOnStartButton() {
         start.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +153,19 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         });
     }
 
+    private void setListenerOnGalleryButton() {
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MilestoneInputActivity.this, MilestoneImageActivity.class);
+                intent.putExtra(MilestoneImageActivity.GOAL_ID, goalId);
+                intent.putExtra(MilestoneImageActivity.MILESTONE_ID, milestoneId);
+                startActivity(intent);
+            }
+        });
+
+    }
+
     private void setListenerOnSaveDetails() {
         saveDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,38 +184,14 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     title.setText(milestone.getTitle());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_CAMERA){
-                Bundle bundle = data.getExtras();
-                final Bitmap bitmap = (Bitmap)bundle.get("data");
-                /* TODO add a bitmap to a database
-                *  */
-               // bitmaps.add(bitmap);
-                milestonePresenter.addImage(milestone.getMilestoneId(), bitmap);
 
-                updateImageAdapter();
-
-               // milestone.setBitmap(bitmaps);
-             //   cameraImage.setImageBitmap(milestone.getBitmap());
-            }
-        }
-    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
         showDescription();
-        updateImageAdapter();
     }
 
-    private void updateImageAdapter(){
-        ArrayList<Bitmap> bitmaps = milestonePresenter.getImages(milestone.getMilestoneId());
-        ImageAdapter imageAdapter = new ImageAdapter(MilestoneInputActivity.this, bitmaps);
-        gridView.setAdapter(imageAdapter);
-    }
 
 }
