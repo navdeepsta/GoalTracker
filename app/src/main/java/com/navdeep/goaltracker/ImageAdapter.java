@@ -54,7 +54,7 @@ public class ImageAdapter extends BaseAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             imageView.setCropToPadding(true);
         }
-        imageView.setLayoutParams(new GridView.LayoutParams(160, 150));
+        imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
         imageView.setBackgroundResource(R.drawable.imagevew_border);
 
 

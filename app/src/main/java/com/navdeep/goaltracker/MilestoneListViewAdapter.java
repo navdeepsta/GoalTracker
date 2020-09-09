@@ -55,11 +55,19 @@ public class MilestoneListViewAdapter extends BaseAdapter {
         TextView timer = convertView.findViewById(R.id.milestoneTimer);
         Log.i("Goal Name",milestones.get(position).getDescription() +"\n");
         Log.i("Goal Name",milestones.get(position).toString());
+
+        //poistion >= 0
         dayTitle.setText(milestones.get(position).toString()+" "+(++milestoneCount));
         milestoneTitle.setText(milestones.get(position).getTitle());
         timer.setText(milestones.get(position).getTimer());
-        int id = milestones.get(position).getGoalId();
-        fillLastMilestoneWithColorToShowEndOfGoal(id,convertView);
+
+        if(milestones.get(position).getTimer().equals("00:00:00")) {
+            convertView.setBackgroundColor(Color.RED);
+            dayTitle.setBackgroundColor(Color.RED);
+        }
+        //int id = milestones.get(position).getGoalId();
+
+       // fillLastMilestoneWithColorToShowEndOfGoal(id,convertView);
 
         return convertView;
     }

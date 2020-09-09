@@ -35,7 +35,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     public static MilestonePresenter getMilestonePresenter(MilestoneModelViewPresenter.MilestoneView view, int goalId){
 
         mMilestoneView = view;
-        mMilestoneView.displayMilestones(milestonePresenter.getMilestones(goalId));
+        //mMilestoneView.displayMilestones(milestonePresenter.getMilestones(goalId));
        // goal.getGoalTimer().milestonePresenterWithView(this);
        return milestonePresenter;
     }

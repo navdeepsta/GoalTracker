@@ -24,6 +24,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.navdeep.goaltracker.GoalUtil;
 import com.navdeep.goaltracker.ImageAdapter;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
 import com.navdeep.goaltracker.MilestoneTimer;
@@ -32,9 +33,10 @@ import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MilestoneInputActivity extends AppCompatActivity implements MilestoneModelViewPresenter.MilestoneInputView {
-    private static final int REQUEST_CAMERA = 1;
+    public static final String INPUT_FLAG = "inputflag";
     public static final String MILESTONE_ID = "milestonePosition";
     public static final String GOAL_ID = "goalId";
     private EditText description, title;
@@ -53,6 +55,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         setContentView(R.layout.activity_milestone_input);
         setContentViewItems();
         setGoalPositionAndId();
+
+
         milestone = getMilestone();
         milestoneTimer = new MilestoneTimer();
         milestonePresenter = MilestonePresenter.getMilestonePresenter(this);
@@ -191,7 +195,23 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     protected void onResume() {
         super.onResume();
         showDescription();
+        disableInputsForOldMilestones();
+        updateTimerTextView();
     }
 
+    private void disableInputsForOldMilestones(){
+        boolean inputFlag = getIntent().getBooleanExtra(INPUT_FLAG, true);
+        if(inputFlag){
+            disableInputs();
+        }
+    }
+    private void disableInputs(){
+        start.setEnabled(false);
+        stop.setEnabled(false);
+    }
+
+    private void updateTimerTextView() {
+        timer.setText(milestone.getTimer());
+    }
 
 }

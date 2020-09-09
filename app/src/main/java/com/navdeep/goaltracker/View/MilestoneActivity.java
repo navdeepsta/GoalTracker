@@ -32,13 +32,16 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
 
         mMilestoneListView = findViewById(R.id.goalMilestoneView);
         milestonePresenter = MilestonePresenter.getMilestonePresenter(this, goalId);
-       // mMilestoneListView = findViewById(R.id.goalMilestoneView);
+        // mMilestoneListView = findViewById(R.id.goalMilestoneView);
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MilestoneActivity.this, MilestoneInputActivity.class);
                 intent.putExtra(MilestoneInputActivity.MILESTONE_ID, milestonePresenter.getMilestones(goalId).get(position).getMilestoneId());
                 intent.putExtra(MilestoneInputActivity.GOAL_ID, goalId);
+                if(position==milestonePresenter.getMilestones(goalId).size()-1){
+                    intent.putExtra(MilestoneInputActivity.INPUT_FLAG , false);
+                }
                 startActivity(intent);
             }
         };
@@ -51,7 +54,7 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         MilestoneListViewAdapter milestoneListViewAdapter = new MilestoneListViewAdapter(MilestoneActivity.this, milestonePresenter.getMilestones(goalId));
         mMilestoneListView.setAdapter(milestoneListViewAdapter);
@@ -59,10 +62,9 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
 
     @Override
     public void displayMilestones(ArrayList<Milestone> milestones) {
-        MilestoneListViewAdapter milestoneListViewAdapter=new MilestoneListViewAdapter(MilestoneActivity.this, milestones);
-        mMilestoneListView.setAdapter(milestoneListViewAdapter);
+       // MilestoneListViewAdapter milestoneListViewAdapter=new MilestoneListViewAdapter(MilestoneActivity.this, milestones);
+       // mMilestoneListView.setAdapter(milestoneListViewAdapter);
     }
-
 
 
 }
