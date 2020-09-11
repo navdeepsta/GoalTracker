@@ -9,7 +9,11 @@
     <string name="years">Years</string>
     <string name="months">Months</string>
     <string name="days">Days</string>
-
     <string name="add_image">Add Image</string>
+
+    <!-- Milestone Details -->
+    <string name="milestone_title_hint">Title</string>
+    <string name="milestone_description_hint">Description</string>
+    <string name="timer">00:00:00</string>
 
 </resources>

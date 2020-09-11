@@ -63,7 +63,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         int milestoneListSize = getMilestones(goalId).size();
         for (int i = 0; i < diffDays; ++i) {
             if (milestoneListSize < duration) {
-                createMilestone(goalId, "Default", currentTime, "Title", timer);
+                createMilestone(goalId, "", currentTime, "", timer);
                 calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
                 milestoneListSize = getMilestones(goalId).size();
             }

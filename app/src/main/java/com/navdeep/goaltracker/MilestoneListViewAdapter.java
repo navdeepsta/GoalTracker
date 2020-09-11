@@ -54,37 +54,34 @@ public class MilestoneListViewAdapter extends BaseAdapter {
         TextView dayTitle = convertView.findViewById(R.id.dayTitle);
         TextView milestoneTitle = convertView.findViewById(R.id.milestoneTitle);
         TextView timer = convertView.findViewById(R.id.milestoneTimer);
-        Log.i("Goal Name",milestones.get(position).getDescription() +"\n");
-        Log.i("Goal Name",milestones.get(position).toString());
-
-        //poistion >= 0
-        dayTitle.setText(milestones.get(position).toString()+" "+(++milestoneCount));
-        milestoneTitle.setText(milestones.get(position).getTitle());
-        timer.setText(milestones.get(position).getTimer());
-
-        if(milestones.get(position).getTimer().equals("00:00:00")) {
-            convertView.setBackgroundColor(Color.RED);
-            dayTitle.setBackgroundColor(Color.RED);
-        }
-        //int id = milestones.get(position).getGoalId();
-
-       // fillLastMilestoneWithColorToShowEndOfGoal(id,convertView);
-
+        setDayTitle(dayTitle, position);
+        setMilestoneTitle(milestoneTitle, position);
+        setTimer(timer, position);
+        changeBackgroundBasedOnTimer(convertView, dayTitle, position);
         return convertView;
     }
 
-    private void fillLastMilestoneWithColorToShowEndOfGoal(int goalId, View convertView){
-        TextView dayTitle = convertView.findViewById(R.id.dayTitle);
-        ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
-        Goal goal = null;
-        for(Goal g : goals){
-            if(g.getGoalId() == goalId){
-                goal = g;
-            }
+
+    private void setDayTitle(TextView dayTitle, int position) {
+        dayTitle.setText(milestones.get(position).toString()+" "+(++milestoneCount));
+    }
+
+    private void setMilestoneTitle(TextView milestoneTitle, int position) {
+        if(milestones.get(position).getTitle().equals("")){
+            milestoneTitle.setText(String.format("%s", "Title"));
+        }else {
+            milestoneTitle.setText(milestones.get(position).getTitle());
         }
-        if(goal!=null && goal.getDuration() == milestoneCount) {
-            convertView.setBackgroundColor(Color.BLUE);
-            dayTitle.setBackgroundColor(Color.BLUE);
+    }
+
+    private void setTimer(TextView timer, int position) {
+        timer.setText(milestones.get(position).getTimer());
+    }
+
+    private void changeBackgroundBasedOnTimer(View convertView, TextView dayTitle ,int position) {
+        if(milestones.get(position).getTimer().equals("00:00:00")) {
+            convertView.setBackgroundColor(Color.RED);
+            dayTitle.setBackgroundColor(Color.RED);
         }
     }
 }

@@ -11,7 +11,9 @@
         android:id="@+id/milestoneTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title" />
+        android:hint="@string/milestone_title_hint"
+        android:inputType="text"
+        android:autofillHints="" tools:targetApi="o" />
 
     <EditText
         android:id="@+id/description"
@@ -19,8 +21,9 @@
         android:layout_height="200dp"
         android:ems="10"
         android:gravity="start"
-        android:hint="description"
-        android:inputType="textPersonName" />
+        android:hint="@string/milestone_description_hint"
+        android:inputType="textPersonName"
+        android:importantForAutofill="no" />
 
 
     <TextView
@@ -29,8 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="36sp"
-        android:text="timer" />
+        android:text="@string/timer"
+        android:textSize="36sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

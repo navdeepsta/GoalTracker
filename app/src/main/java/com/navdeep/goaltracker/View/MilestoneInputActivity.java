@@ -114,7 +114,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             }
             @Override
             public void afterTextChanged(Editable s) {
-                milestone.setDescription(s.toString());
+                String description = s.toString();
+                milestone.setDescription(description);
             }
         });
     }
@@ -129,7 +130,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             }
             @Override
             public void afterTextChanged(Editable s) {
-                milestone.setTitle(s.toString());
+                String title = s.toString();
+                milestone.setTitle(title);
             }
         });
     }
