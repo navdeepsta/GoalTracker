@@ -119,6 +119,7 @@
             />
 
         <RadioGroup
+            android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
@@ -129,25 +130,33 @@
             android:orientation="vertical">
 
             <RadioButton
+                android:id="@+id/education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Education" />
+                android:text="Education"
+                android:onClick="checkButton"/>
 
             <RadioButton
+                android:id="@+id/fitness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fitness" />
+                android:text="Fitness"
+                android:onClick="checkButton"/>
 
             <RadioButton
+                android:id="@+id/business"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Business" />
+                android:text="Business"
+                android:onClick="checkButton"/>
 
             <RadioButton
                 android:id="@+id/other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other" />
+                android:text="Other"
+                android:checked="true"
+                android:onClick="checkButton"/>
         </RadioGroup>
 
         <Button

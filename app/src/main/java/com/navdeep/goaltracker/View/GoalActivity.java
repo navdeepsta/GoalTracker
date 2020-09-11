@@ -5,9 +5,11 @@
 package com.navdeep.goaltracker.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -17,6 +19,9 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.navdeep.goaltracker.GoalListViewAdapter;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
 import com.navdeep.goaltracker.POJOs.Goal;
@@ -27,6 +32,7 @@ import java.util.ArrayList;
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
     private ListView mGoalListView;
+    private FloatingActionButton floatingActionButton;
     private GoalListViewAdapter goalListViewAdapter;
     private static GoalPresenter goalPresenter;
 
@@ -35,7 +41,7 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
         mGoalListView = findViewById(R.id.goalListView);
-
+        floatingActionButton = findViewById(R.id.floatingActionButton);
         goalPresenter = GoalPresenter.getGoalPresenter(this);
 
 
@@ -58,12 +64,14 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 Goal goal = (Goal)goalListViewAdapter.getItem(position);
+                goalListViewAdapter.getItemId(position);
                 if(goals.contains(goal)){
                     goals.remove(goal);
                 }else {
                     goals.add(goal);
                 }
                 mode.setTitle(goals.size()+" items selected");
+
             }
 
             @Override
@@ -96,6 +104,13 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
             }
         });
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -122,9 +137,9 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_goal:
-                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
-                startActivity(intent);
-                return true;
+             //   Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
+              //  startActivity(intent);
+               // return true;
 
             default:
                 return super.onOptionsItemSelected(item);

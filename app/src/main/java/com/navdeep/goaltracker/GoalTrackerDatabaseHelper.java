@@ -22,6 +22,7 @@ public class GoalTrackerDatabaseHelper extends SQLiteOpenHelper {
 
             db.execSQL("CREATE TABLE GOAL ("
                        + "GOAL_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                       + "GOAL_CATEGORY TEXT, "
                        + "GOAL_NAME TEXT, "
                        + "GOAL_START_TIME TEXT, "
                        + "GOAL_DURATION INTEGER, "

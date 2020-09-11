@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface GoalModelViewPresenter {
     interface GoalPresenter{
-        void createGoal(String goalName, String goalStartTime, int duration, int goalProgress);
+        void createGoal(String categoryName, String goalName, String goalStartTime, int duration, int goalProgress);
         void deleteGoals(ArrayList<Goal> goals);
         ArrayList<Goal> getGoals();
         void incrementGoalProgress(Goal goal);

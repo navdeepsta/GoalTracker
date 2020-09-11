@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.navdeep.goaltracker.GoalTime;
@@ -23,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Calendar;
 
 public class GoalInputActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalInputView, AdapterView.OnItemSelectedListener {
+    private RadioGroup category;
+    private RadioButton radioButton;
     private EditText mGoalName;
     private EditText mGoalDuration;
     private Button mSaveGoal;
@@ -48,6 +52,8 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         goalPresenter = GoalPresenter.getGoalPresenter(GoalInputActivity.this);
         goalPresenter.initGoalDuration();
 
+        category = findViewById(R.id.category);
+        radioButton = findViewById(category.getCheckedRadioButtonId());
         mGoalName = findViewById(R.id.goalName);
         mSaveGoal = findViewById(R.id.saveGoal);
         goalInputView = this;
@@ -56,7 +62,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
             @Override
             public void onClick(View v) {
                 int duration = goalPresenter.calculateGoalDuration();
-                goalPresenter.createGoal(mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
+                goalPresenter.createGoal(radioButton.getText().toString(), mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
                 finish();
             }
         });
@@ -106,6 +112,10 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
 
     }
 
+    public void checkButton(View view) {
+        int radioId = category.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+    }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

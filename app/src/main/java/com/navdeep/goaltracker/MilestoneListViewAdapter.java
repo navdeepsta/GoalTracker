@@ -25,6 +25,7 @@ public class MilestoneListViewAdapter extends BaseAdapter {
     public MilestoneListViewAdapter(Context context, ArrayList<Milestone> milestone){
         this.context = context;
         milestones = milestone;
+        milestoneCount = 0;
 
     }
     public MilestoneListViewAdapter(Context context){

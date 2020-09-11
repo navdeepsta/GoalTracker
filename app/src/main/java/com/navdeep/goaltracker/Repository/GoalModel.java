@@ -27,11 +27,13 @@ public class GoalModel implements GoalModelViewPresenter.GoalModel {
     @Override
     public void insertGoal(Goal goal) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
+        String goalCategory = goal.getCategoryName();
         String goalName = goal.getGoalName();
         String goalStartTime = goal.getGoalStartTime();
         int goalDuration = goal.getDuration();
 
         ContentValues goalContentValues = new ContentValues();
+        goalContentValues.put("GOAL_CATEGORY", goalCategory);
         goalContentValues.put("GOAL_NAME", goalName);
         goalContentValues.put("GOAL_START_TIME", goalStartTime);
         goalContentValues.put("GOAL_DURATION", goalDuration);
@@ -44,15 +46,16 @@ public class GoalModel implements GoalModelViewPresenter.GoalModel {
         goals = new ArrayList<>();
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         Cursor cursor = goalTrackerDatabase.query("GOAL",
-                new String[]{"GOAL_ID", "GOAL_NAME", "GOAL_START_TIME", "GOAL_DURATION", "GOAL_PROGRESS"},
+                new String[]{"GOAL_ID", "GOAL_CATEGORY", "GOAL_NAME", "GOAL_START_TIME", "GOAL_DURATION", "GOAL_PROGRESS"},
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
             int goalId = cursor.getInt(0);
-            String goalName = cursor.getString(1);
-            String goalStartTime = cursor.getString(2);
-            int goalDuration = cursor.getInt(3);
-            int goalProgress = cursor.getInt(4);
-            Goal goal = new Goal(goalId, goalName,goalStartTime,goalDuration, goalProgress);
+            String goalCategory = cursor.getString(1);
+            String goalName = cursor.getString(2);
+            String goalStartTime = cursor.getString(3);
+            int goalDuration = cursor.getInt(4);
+            int goalProgress = cursor.getInt(5);
+            Goal goal = new Goal(goalId, goalCategory, goalName,goalStartTime,goalDuration, goalProgress);
             goals.add(goal);
         }
         cursor.close();

@@ -56,12 +56,12 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     public void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer) {
         Calendar previousCalendar = GoalUtil.getCalendarObject(previousTime);
         Calendar currentCalendar = GoalUtil.getCalendarObject(currentTime);
-        //  setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
+        setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
         long diff = currentCalendar.getTime().getTime() - previousCalendar.getTime().getTime();
         int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-        int diffmin = (int) (diff / (60 * 1000));
+       // int diffmin = (int) (diff / (60 * 1000));
         int milestoneListSize = getMilestones(goalId).size();
-        for (int i = 0; i < diffmin; ++i) {
+        for (int i = 0; i < diffDays; ++i) {
             if (milestoneListSize < duration) {
                 createMilestone(goalId, "Default", currentTime, "Title", timer);
                 calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
