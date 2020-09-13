@@ -9,7 +9,7 @@ import java.util.Date;
 public class GoalUtil {
     /* To get formatted date & time of goal object */
     public static String getStartTime(Calendar calendar){
-        return dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+", "+calendar.get(Calendar.DATE)+" "
+        return dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+"\n"+calendar.get(Calendar.DATE)+" "
                 +months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR)
                 +"\n"+getTime(calendar);
     }
@@ -18,9 +18,9 @@ public class GoalUtil {
             "Friday", "Saturday", "Sunday"
     };
 
-    private static String[] months = {"January", "Febuary", "March", "April", "May",
-            "June", "July", "August", "September", "October",
-            "November", "December"
+    private static String[] months = {"Jan", "Feb", "Mar", "Apr", "May",
+            "Jun", "Jul", "Aug", "Sept", "Oct",
+            "Nov", "Dec"
     };
     private static String getTime(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR);
@@ -30,7 +30,7 @@ public class GoalUtil {
         if(calendar.get(Calendar.AM_PM) == Calendar.PM){
             hour+=12;
         }
-        return hour+":"+minute+":"+beforeOrAfterNoon;
+        return hour+":"+minute+" "+beforeOrAfterNoon;
     }
 
 

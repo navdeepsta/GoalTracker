@@ -11,9 +11,12 @@ import android.util.Log;
 import com.navdeep.goaltracker.GoalTrackerDatabaseConnection;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.POJOs.MilestoneImage;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 
 public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneModel {
      private ArrayList<Milestone> milestones;
@@ -109,11 +112,12 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
     }
 
     @Override
-    public void insertImage(int id, Bitmap bitmap) {
+    public void insertImage(int id, MilestoneImage image) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         ContentValues imageContentValues = new ContentValues();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,10,stream);
+        //Todo
+       image.getBitmap().compress(Bitmap.CompressFormat.JPEG,100,stream);
         byte[] imageByteArray = stream.toByteArray();
         imageContentValues.put("MILESTONE_ID" , id);
         imageContentValues.put("IMAGE_DATA", imageByteArray);
@@ -122,9 +126,9 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
     }
 
     @Override
-    public ArrayList<Bitmap> fetchImages(int milestoneId) {
+    public ArrayList<MilestoneImage> fetchImages(int milestoneId) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
-        ArrayList<Bitmap> bitmaps = new ArrayList<>();
+        ArrayList<MilestoneImage> images = new ArrayList<>();
         Cursor cursor = goalTrackerDatabase.query("IMAGE",
                 new String[]{"IMAGE_ID","MILESTONE_ID","IMAGE_DATA"},
                 "MILESTONE_ID = ?" ,new String[]{String.valueOf(milestoneId)},null,null,null);
@@ -134,13 +138,23 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
             int milestone_Id = cursor.getInt(1);
             byte[] imageByteArray = cursor.getBlob(2);
             Bitmap compressedBitmap = BitmapFactory.decodeByteArray(imageByteArray,0,imageByteArray.length);
-            bitmaps.add(compressedBitmap);
+            images.add(new MilestoneImage(imageId, compressedBitmap, Calendar.getInstance()));
         }
         cursor.close();
         connection.closeDatabase();
-        return bitmaps;
+        return images;
     }
-
+    @Override
+    public void deleteImages(ArrayList<MilestoneImage> images, int milestoneId) {
+        SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
+        for(Iterator itr = images.iterator(); itr.hasNext();){
+            MilestoneImage image = (MilestoneImage) itr.next();
+                     goalTrackerDatabase.delete("IMAGE",
+                    "MILESTONE_ID = ? and IMAGE_ID = ?",
+                    new String[]{ String.valueOf(milestoneId), String.valueOf(image.getImageId())});
+        }
+        goalTrackerDatabase.close();
+    }
     @Override
     public void loadMilestoneFromDatabase(int milestoneId) {
 

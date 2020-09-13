@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     public static final String GOAL_ID = "goalId";
     private EditText description, title;
     private TextView timer;
-    private Button start, stop, gallery, saveDetails;
+    private ImageView gallery;
+    private Button start, stop, saveDetails;
 
 
     private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
@@ -127,11 +129,12 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
             @Override
             public void afterTextChanged(Editable s) {
-                String title = s.toString();
-                milestone.setTitle(title);
+                String text = s.toString();
+                milestone.setTitle(text);
             }
         });
     }
@@ -151,14 +154,19 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(milestoneTimer!=null){
-                    milestoneTimer.setSeconds(milestoneTimer.getSeconds());
-                    milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
-                }
+                pauseTimer();
             }
         });
     }
 
+    private void pauseTimer(){
+        if(milestoneTimer!=null){
+            milestoneTimer.setSeconds(milestoneTimer.getSeconds());
+            if(milestoneTimer.getHandler()!=null) {
+                milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
+            }
+        }
+    }
     private void setListenerOnGalleryButton() {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,4 +224,16 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         timer.setText(milestone.getTimer());
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveDetails();
+        pauseTimer();
+    }
+
+    private void saveDetails() {
+        milestoneTimer.setMilestoneTimer(timer.getText().toString());
+        milestone.setTimer(milestoneTimer.getMilestoneTimer());
+        milestonePresenter.updateMilestone(milestone);
+    }
 }

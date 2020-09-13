@@ -6,6 +6,7 @@ import com.navdeep.goaltracker.GoalUtil;
 import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.POJOs.MilestoneImage;
 import com.navdeep.goaltracker.Repository.MilestoneModel;
 
 import java.io.Serializable;
@@ -98,8 +99,8 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     @Override
-    public void addImage(int id, Bitmap bitmap) {
-        mMilestoneModel.insertImage(id, bitmap);
+    public void addImage(int id, MilestoneImage image) {
+       mMilestoneModel.insertImage(id, image);
     }
 
     @Override
@@ -115,8 +116,13 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     @Override
-    public ArrayList<Bitmap> getImages(int milestoneId) {
+    public ArrayList<MilestoneImage> getImages(int milestoneId) {
        return mMilestoneModel.fetchImages(milestoneId);
+    }
+
+    @Override
+    public void deleteMilestoneImages(ArrayList<MilestoneImage> images, int milestoneId) {
+        mMilestoneModel.deleteImages(images, milestoneId);
     }
 
     private void setGoalPreviousAndCurrentTimeToZero(Calendar previousCalendar, Calendar currentCalendar){

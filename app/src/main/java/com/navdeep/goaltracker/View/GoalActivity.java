@@ -64,7 +64,6 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 Goal goal = (Goal)goalListViewAdapter.getItem(position);
-                goalListViewAdapter.getItemId(position);
                 if(goals.contains(goal)){
                     goals.remove(goal);
                 }else {

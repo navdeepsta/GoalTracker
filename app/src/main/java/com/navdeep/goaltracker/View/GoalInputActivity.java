@@ -4,11 +4,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -30,6 +33,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     private EditText mGoalName;
     private EditText mGoalDuration;
     private Button mSaveGoal;
+    private ImageView durationIcon, categoryIcon;
     private Spinner years, months, days;
     private GoalModelViewPresenter.GoalInputView goalInputView;
     //private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
@@ -39,10 +43,11 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_input);
+        mGoalName = findViewById(R.id.goalName);
         years = findViewById(R.id.years);
         months =  findViewById(R.id.months);
         days =  findViewById(R.id.days);
-
+        durationIcon = findViewById(R.id.duration);
         years.setOnItemSelectedListener(this);
         months.setOnItemSelectedListener(this);
         days.setOnItemSelectedListener(this);
@@ -52,9 +57,9 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         goalPresenter = GoalPresenter.getGoalPresenter(GoalInputActivity.this);
         goalPresenter.initGoalDuration();
 
+        categoryIcon = findViewById(R.id.categoryIcon);
         category = findViewById(R.id.category);
         radioButton = findViewById(category.getCheckedRadioButtonId());
-        mGoalName = findViewById(R.id.goalName);
         mSaveGoal = findViewById(R.id.saveGoal);
         goalInputView = this;
 
@@ -67,6 +72,28 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
             }
         });
 
+        mSaveGoal.setVisibility(View.INVISIBLE);
+        mGoalName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+             String goalName = s.toString();
+             if(goalName!="" && goalName.length()>1){
+                 mSaveGoal.setVisibility(View.VISIBLE);
+             }else {
+                 mSaveGoal.setVisibility(View.INVISIBLE);
+             }
+            }
+        });
 
     }
 
@@ -112,12 +139,13 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
 
     }
 
-    public void checkButton(View view) {
-        int radioId = category.getCheckedRadioButtonId();
-        radioButton = findViewById(radioId);
-    }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    public void checkButton(View view) {
+        int radioId = category.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
     }
 }

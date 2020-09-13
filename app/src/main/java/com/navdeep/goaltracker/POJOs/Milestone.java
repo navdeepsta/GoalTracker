@@ -8,7 +8,7 @@ public class Milestone {
     private String title;
     private String time;
     private String timer;
-    private ArrayList<Bitmap> bitmaps;
+    private ArrayList<MilestoneImage> bitmaps;
 
     public Milestone(int goalId, String description, String time, String title, String timer){
         this.goalId = goalId;
@@ -61,7 +61,7 @@ public class Milestone {
         return title;
     }
 
-    public ArrayList<Bitmap> getBitmapList(){
+    public ArrayList<MilestoneImage> getBitmapList(){
         return bitmaps;
     }
 

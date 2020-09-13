@@ -1,19 +1,27 @@
 package com.navdeep.goaltracker;
 
 public class GoalTime {
-    private String[] years = {"0","1","2","3","4","5"};
+    private String[] years;
     private String[] months;
     private String[] days;
 
     public GoalTime() {
+        years = new String[11];
         months = new String[13];
         days = new String[30];
         initGoalTime();
     }
 
     private void initGoalTime(){
+        initYears();
         initMonths();
         intiDays();
+    }
+
+    private void initYears(){
+        for (int i = 0; i <= 10; ++i) {
+            years[i] = (i) + "";
+        }
     }
     private void initMonths(){
         for (int i = 0; i <= 12; ++i) {

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/milestone_title_hint"
         android:inputType="text"
+        android:maxLength="20"
         android:autofillHints="" tools:targetApi="o" />
 
     <EditText
@@ -41,7 +42,7 @@
         android:layout_weight="0"
         android:gravity="bottom"
         android:orientation="horizontal">
-
+ <!--
         <Button
             android:id="@+id/start"
             android:layout_width="wrap_content"
@@ -55,19 +56,54 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Stop" />
-
+-->
     </LinearLayout>
-
+<!--
     <Button
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gallery" />
-
+-->
     <Button
         android:id="@+id/saveDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="SAVE" />
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    >
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+        />
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize= "normal"
+        android:layout_gravity="center"
+        android:src = "@drawable/ic_camera_black_50dp"
+        />
+   <Button
+    android:id="@+id/stop"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+       android:layout_gravity="end"
+    android:text="Stop" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </LinearLayout>

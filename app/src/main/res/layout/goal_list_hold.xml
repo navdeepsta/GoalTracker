@@ -10,14 +10,14 @@
         android:id="@+id/categoryIcon"
         android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:id="@+id/goalDescription"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/categoryIcon"
+        android:layout_toEndOf="@+id/categoryIcon"
         android:orientation="vertical">
         <TextView
             android:id="@+id/goalName"
@@ -35,41 +35,15 @@
             android:textSize="16sp">
         </TextView>
     </LinearLayout>
-    <!--
-    <TextView
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/categoryIcon"
-        android:layout_alignParentRight="true"
-        android:gravity="end"
-        android:text="@string/progress"
-        >
-    </TextView>
-   -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:gravity="end"
         android:layout_margin="10dp"
         >
-        <!--
-        <ProgressBar
-        android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:background="@drawable/circle"
-        android:indeterminate="false"
-        android:progress="80"
-        android:progressDrawable="@drawable/circular_progress_bar" />
-        -->
+
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:layout_centerInParent="true"
             android:id="@+id/progressBar"

@@ -17,27 +17,30 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.navdeep.goaltracker.POJOs.Milestone;
+import com.navdeep.goaltracker.POJOs.MilestoneImage;
+
 import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private Context context;
-    private Bitmap[] bitmap;
-    public ImageAdapter(Context context, ArrayList<Bitmap> bitmaps){
+    private MilestoneImage[] bitmaps;
+    public ImageAdapter(Context context, ArrayList<MilestoneImage> bitmapList){
         Log.i("Image","ImageAddapter");
         this.context = context;
-        bitmap = new Bitmap[bitmaps.size()];
-        for(int i=0; i<bitmap.length;++i){
-         bitmap[i] = bitmaps.get(i);
+        bitmaps = new MilestoneImage[bitmapList.size()];
+        for(int i=0; i<bitmaps.length;++i){
+         bitmaps[i] = bitmapList.get(i);
         }
     }
     @Override
     public int getCount() {
-        return bitmap.length;
+        return bitmaps.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return bitmap[position];
+        return bitmaps[position];
     }
 
     @Override
@@ -49,7 +52,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView imageView = new ImageView( context);
-        imageView.setImageBitmap(bitmap[position]);
+        imageView.setImageBitmap(bitmaps[position].getBitmap());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             imageView.setCropToPadding(true);
