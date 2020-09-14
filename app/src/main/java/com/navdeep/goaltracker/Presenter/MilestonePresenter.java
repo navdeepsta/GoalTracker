@@ -64,7 +64,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         int milestoneListSize = getMilestones(goalId).size();
         for (int i = 0; i < diffDays; ++i) {
             if (milestoneListSize < duration) {
-                createMilestone(goalId, "", currentTime, "", timer);
+                createMilestone(goalId, "", currentTime, "Title", timer);
                 calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
                 milestoneListSize = getMilestones(goalId).size();
             }
@@ -76,7 +76,7 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     private void calculateAndUpdateGoalProgress(int goalId, int milestoneListSize, int duration){
-        int goalProgress =  (int)(100 * ((float)milestoneListSize/(float)duration) );
+       int goalProgress = (int) (100 * ((float) milestoneListSize / (float) (duration+1)));
         updateGoalProgress(goalId, goalProgress);
     }
 

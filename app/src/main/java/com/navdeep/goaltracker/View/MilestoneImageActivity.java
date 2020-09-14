@@ -9,11 +9,13 @@ import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ActionMode;
@@ -35,6 +37,7 @@ import com.navdeep.goaltracker.POJOs.MilestoneImage;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -164,7 +167,6 @@ public class MilestoneImageActivity extends AppCompatActivity {
                     gridView.getChildAt(position).setBackgroundColor(Color.RED);
                 }
                 mode.setTitle(images.size()+" items selected");
-
             }
 
             @Override

@@ -10,6 +10,9 @@ public class MilestoneTimer {
     private int seconds;
     private String time="00:00:00";
     private int runTimerCount = 0;
+    private boolean running = false;
+    public void setRunning(boolean running){this.running = running;}
+    public boolean isRunning(){return running;}
     public Handler getHandler(){
         return handler;
     }
@@ -25,6 +28,9 @@ public class MilestoneTimer {
     public void setMilestoneTimer(String time){this.time = time;}
     public String getMilestoneTimer(){
         return time;
+    }
+    public void setRunTimerCounterToZero(){
+        runTimerCount = 0;
     }
     public void runTimer(final TextView textView) {
         ++runTimerCount;

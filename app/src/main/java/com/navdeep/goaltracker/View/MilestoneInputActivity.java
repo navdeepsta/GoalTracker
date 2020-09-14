@@ -43,7 +43,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     private EditText description, title;
     private TextView timer;
     private ImageView gallery;
-    private Button start, stop, saveDetails;
+    private Button start;
 
 
     private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
@@ -72,11 +72,10 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     private void setContentViewItems() {
         timer = findViewById(R.id.timer);
         start = findViewById(R.id.start);
-        stop = findViewById(R.id.stop);
         description = findViewById(R.id.description);
         title = findViewById(R.id.milestoneTitle);
         gallery = findViewById(R.id.gallery);
-        saveDetails = findViewById(R.id.saveDetails);
+
     }
 
     private void setGoalPositionAndId() {
@@ -98,9 +97,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         setListenerOnDescriptionEditText();
         setListenerOnTitleEditText();
         setListenersOnStartButton();
-        setListenersOnStopButton();
         setListenerOnGalleryButton();
-        setListenerOnSaveDetails();
     }
 
 
@@ -145,27 +142,29 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                milestoneTimer.runTimer(timer);
+                if(!milestoneTimer.isRunning()) {
+                    milestoneTimer.runTimer(timer);
+                    milestoneTimer.setRunning(true);
+                    start.setText("Stop");
+                }else {
+                    pauseTimer();
+                    milestoneTimer.setRunning(false);
+
+                }
             }
         });
     }
 
-    private void setListenersOnStopButton() {
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pauseTimer();
-            }
-        });
-    }
 
     private void pauseTimer(){
         if(milestoneTimer!=null){
             milestoneTimer.setSeconds(milestoneTimer.getSeconds());
+            milestoneTimer.setRunTimerCounterToZero();
             if(milestoneTimer.getHandler()!=null) {
                 milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
             }
         }
+        start.setText("Start");
     }
     private void setListenerOnGalleryButton() {
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -180,17 +179,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
 
     }
 
-    private void setListenerOnSaveDetails() {
-        saveDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                milestone.setTimer(milestoneTimer.getMilestoneTimer());
-                milestonePresenter.updateMilestone(milestone);
 
-                Toast.makeText(MilestoneInputActivity.this, "Saved",Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     @Override
     public void showDescription() {
@@ -217,7 +206,6 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     }
     private void disableInputs(){
         start.setEnabled(false);
-        stop.setEnabled(false);
     }
 
     private void updateTimerTextView() {

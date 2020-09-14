@@ -1,12 +1,17 @@
 package com.navdeep.goaltracker.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.MilestoneAdapter;
 import com.navdeep.goaltracker.MilestoneListViewAdapter;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
  */
 public class MilestoneActivity extends AppCompatActivity implements MilestoneModelViewPresenter.MilestoneView {
     private ListView mMilestoneListView;
+    private RecyclerView milestoneRecycler;
     public static final String GOAL_ID = "goal_id";
     private int goalId;
 
@@ -27,25 +33,11 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_milestone);
-        goalId = getIntent().getIntExtra(MilestoneActivity.GOAL_ID, 0);
+        setContentView(R.layout.activity_milestone_recycler);
+        milestoneRecycler = findViewById(R.id.milestone_recycler);
 
-        mMilestoneListView = findViewById(R.id.goalMilestoneView);
+        goalId = getIntent().getIntExtra(MilestoneActivity.GOAL_ID, 0);
         milestonePresenter = MilestonePresenter.getMilestonePresenter(this, goalId);
-        // mMilestoneListView = findViewById(R.id.goalMilestoneView);
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MilestoneActivity.this, MilestoneInputActivity.class);
-                intent.putExtra(MilestoneInputActivity.MILESTONE_ID, milestonePresenter.getMilestones(goalId).get(position).getMilestoneId());
-                intent.putExtra(MilestoneInputActivity.GOAL_ID, goalId);
-                if(position==milestonePresenter.getMilestones(goalId).size()-1){
-                    intent.putExtra(MilestoneInputActivity.INPUT_FLAG , false);
-                }
-                startActivity(intent);
-            }
-        };
-        mMilestoneListView.setOnItemClickListener(itemClickListener);
     }
 
     @Override
@@ -56,8 +48,10 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
     @Override
     protected void onResume() {
         super.onResume();
-        MilestoneListViewAdapter milestoneListViewAdapter = new MilestoneListViewAdapter(MilestoneActivity.this, milestonePresenter.getMilestones(goalId));
-        mMilestoneListView.setAdapter(milestoneListViewAdapter);
+        MilestoneAdapter milestoneAdapter = new MilestoneAdapter(milestonePresenter.getMilestones(goalId), this, goalId);
+        milestoneRecycler.setAdapter(milestoneAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        milestoneRecycler.setLayoutManager(layoutManager);
     }
 
     @Override
