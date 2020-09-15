@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/milestone_title_hint"
         android:inputType="text"
+        android:textColor="@color/colorPrimary"
         android:maxLength="20"
         android:autofillHints="" tools:targetApi="o" />
 
@@ -25,29 +26,35 @@
         android:ems="10"
         android:gravity="start"
         android:hint="@string/milestone_description_hint"
-        android:inputType="textPersonName"
+        android:inputType="text"
+        android:textColor="@color/colorPrimary"
         android:importantForAutofill="no" />
 
-
+ <LinearLayout
+     android:layout_width="wrap_content"
+     android:layout_height="0dp"
+     android:layout_weight=".30"
+     android:orientation="vertical"
+     android:layout_gravity="center"
+     >
     <TextView
         android:id="@+id/timer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".10"
         android:gravity="center"
         android:text="@string/timer"
         android:textSize="36sp" />
 
 
-        <Button
+        <ImageView
             android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start" />
+            android:src="@drawable/ic_play_circle_filled_black_50dp" />
 
-
-
+ </LinearLayout>
+<!-- Available for integration
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/gallery"
         android:layout_width="wrap_content"
@@ -56,6 +63,16 @@
         android:layout_gravity="bottom|right"
         android:src = "@drawable/ic_camera_black_50dp"
         />
-
-
+-->
+<Button
+    android:id="@+id/gallery"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:text="@string/gallery"
+    android:gravity="center"
+    android:textSize="18sp"
+    android:background="@color/colorAccent"
+    android:textColor="@color/onColorAccent"
+    />
 </LinearLayout>

@@ -23,10 +23,11 @@
             android:label="Gallery" />
         <activity
             android:name=".View.MilestoneInputActivity"
-            android:label="Milestone Details" />
+            android:screenOrientation="portrait"
+            android:label="Task Details" />
         <activity
             android:name=".View.MilestoneActivity"
-            android:label="Milestones" />
+            android:label="Tasks" />
         <activity
             android:name=".View.GoalActivity"
             android:label="Goals">

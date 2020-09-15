@@ -59,15 +59,27 @@ public class GoalListViewAdapter extends BaseAdapter {
         String progressText = goal.getGoalProgress()+"%";
         progressBar.setProgress(goal.getGoalProgress());
         progressBarText.setText(progressText);
-           int index = categoryNames.length-1;
-           for(int i=0; i<categoryNames.length; ++i) {
-               if(categoryNames[i].equalsIgnoreCase(goal.getCategoryName())) {
-                   Log.i("Category", goal.getCategoryName());
-                   index = i;
-               }
-           }
-           categoryIcon.setImageResource(categoryIcons[index]);
-        goalName.setText(goal.getGoalName());
+        categoryIcon.setImageResource(categoryIcons[getCategoryIconIndex(goal)]);
+        goalName.setText(getFormattedGoalName(goal));
         time.setText(goal.getGoalStartTimeWithFormat());
+    }
+
+
+
+    private int getCategoryIconIndex(Goal goal) {
+        int index = categoryNames.length-1;
+        for(int i=0; i<categoryNames.length; ++i) {
+            if(categoryNames[i].equalsIgnoreCase(goal.getCategoryName())) {
+                Log.i("Category", goal.getCategoryName());
+                index = i;
+            }
+        }
+        return  index;
+    }
+
+    private String getFormattedGoalName(Goal goal) {
+        String firstLetter = goal.getGoalName().substring(0,1).toUpperCase();
+        String goalName = goal.getGoalName().substring(1).toLowerCase();
+        return firstLetter + goalName;
     }
 }

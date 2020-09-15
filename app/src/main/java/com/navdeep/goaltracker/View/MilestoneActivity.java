@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
 import com.navdeep.goaltracker.MilestoneAdapter;
-import com.navdeep.goaltracker.MilestoneListViewAdapter;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;

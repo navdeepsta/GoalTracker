@@ -42,8 +42,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     public static final String GOAL_ID = "goalId";
     private EditText description, title;
     private TextView timer;
-    private ImageView gallery;
-    private Button start;
+    private Button gallery;
+    private ImageView start;
 
 
     private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
@@ -145,7 +145,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
                 if(!milestoneTimer.isRunning()) {
                     milestoneTimer.runTimer(timer);
                     milestoneTimer.setRunning(true);
-                    start.setText("Stop");
+                    start.setImageResource(R.drawable.ic_stop_black_50dp);
                 }else {
                     pauseTimer();
                     milestoneTimer.setRunning(false);
@@ -164,7 +164,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
                 milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
             }
         }
-        start.setText("Start");
+        start.setImageResource(R.drawable.ic_play_circle_filled_black_50dp);
     }
     private void setListenerOnGalleryButton() {
         gallery.setOnClickListener(new View.OnClickListener() {

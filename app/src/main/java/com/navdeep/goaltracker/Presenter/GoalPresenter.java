@@ -113,7 +113,7 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
                 milestonePresenter.createMilestones(milestone.getTime(), currentTime, goal.getGoalId(), goal.getDuration(),"00:00:00");
             }else{
                 // User clicks newly created goal on the same day or User clicks newly created goal not on the same day
-                milestonePresenter.createMilestone(goal.getGoalId(), "", currentTime, "Title","00:00:00");
+                milestonePresenter.createMilestone(goal.getGoalId(), "", currentTime, "","00:00:00");
                 milestonePresenter.createMilestones(goal.getGoalStartTime(),currentTime, goal.getGoalId(), goal.getDuration(),"00:00:00");
             }
         }

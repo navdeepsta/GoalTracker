@@ -6,6 +6,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="actionModeCloseButtonStyle">@style/NoCloseButtonActionModeStyle</item>
+
+
+    </style>
+    <style name="NoCloseButtonActionModeStyle">
+        <item name="android:visibility">invisible</item>
     </style>
 
+    <style name="SpinnerStyle">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:button">@drawable/radiobutton_draw</item>
+        <item name="android:drawablePadding">50dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
 </resources>

@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,7 +42,7 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
         mGoalListView = findViewById(R.id.goalListView);
-        floatingActionButton = findViewById(R.id.floatingActionButton);
+       // floatingActionButton = findViewById(R.id.floatingActionButton);
         goalPresenter = GoalPresenter.getGoalPresenter(this);
 
 
@@ -69,7 +70,11 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
                 }else {
                     goals.add(goal);
                 }
-                mode.setTitle(goals.size()+" items selected");
+                TextView modeTitle = new TextView(GoalActivity.this);
+                modeTitle.setText(goals.size()+" items selected");
+                modeTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
+                modeTitle.setTextSize(18);
+                mode.setCustomView(modeTitle);
 
             }
 
@@ -103,13 +108,15 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
             }
         });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        /*
+          floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
                 startActivity(intent);
             }
         });
+        */
     }
 
     @Override
@@ -136,9 +143,9 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_goal:
-             //   Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
-              //  startActivity(intent);
-               // return true;
+                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
+                startActivity(intent);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

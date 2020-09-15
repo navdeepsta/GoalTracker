@@ -14,6 +14,7 @@
         android:textSize="24sp"
         android:padding="10dp"
         android:background="@color/colorPrimary"
+        android:textColor="@color/onPrimaryColor"
         android:textStyle="bold">
     </TextView>
     <LinearLayout

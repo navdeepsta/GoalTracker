@@ -4,7 +4,7 @@
 
     <item android:id="@+id/new_goal"
         android:title="@string/new_goal"
-        android:icon="@drawable/goal_add_50dp"
+        android:icon="@drawable/ic_add_circle_outline_white_50dp"
         app:showAsAction="always"/>
 
 </menu>

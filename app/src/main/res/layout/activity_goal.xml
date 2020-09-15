@@ -17,6 +17,7 @@
 
     </LinearLayout>
 
+    <!-- Available for integration
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -28,4 +29,5 @@
         android:elevation="6dp"
         android:src = "@drawable/ic_add_black_50dp"
         />
+      -->
 </FrameLayout>
