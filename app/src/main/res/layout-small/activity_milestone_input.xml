@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".View.MilestoneInputActivity">
+
+        <!-- Available for integration
+           <androidx.appcompat.widget.AppCompatImageView
+               android:id="@+id/gallery"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:fabSize= "normal"
+               android:layout_gravity="bottom|right"
+               android:src = "@drawable/ic_camera_black_50dp"
+               />
+       -->
+        <EditText
+            android:id="@+id/milestoneTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/milestone_title_hint"
+            android:inputType="text"
+            android:maxLength="20"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:targetApi="o" />
+
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="2dp"
+            android:ems="10"
+            android:textSize="12sp"
+            android:gravity="start"
+            android:hint="@string/milestone_description_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/milestoneTitle" />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:text="@string/timer"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@id/start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+             />
+
+
+        <ImageView
+            android:id="@+id/start"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_play_circle_filled_black_50dp"
+            app:layout_constraintBottom_toTopOf="@id/gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer" />
+
+
+        <Button
+            android:id="@+id/gallery"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="@string/gallery"
+            android:textColor="@color/onColorAccent"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

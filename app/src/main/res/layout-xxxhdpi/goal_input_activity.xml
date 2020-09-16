@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<GridLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:columnCount="2"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row = "0"
+            android:layout_column ="0"
+            android:padding="16dp"
+            android:text="Goal Image"
+            />
+
+    <EditText
+        android:id="@+id/goalName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:gravity="center"
+        android:hint="@string/goal_hint"
+        android:padding="16dp" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_row = "1"
+          android:layout_column ="0"
+          android:layout_rowSpan="3"
+          android:padding="16dp"
+          android:text="Duration"
+          />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="fill_horizontal"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/year"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/years" />
+            <Spinner
+                android:id="@+id/years"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/year">
+            </Spinner>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/month"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/months"/>
+            <Spinner
+                android:id="@+id/months"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month">
+            </Spinner>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/day"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/days"/>
+            <Spinner
+                android:id="@+id/days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/day"
+                >
+            </Spinner>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_row = "4"
+          android:layout_column ="0"
+          android:padding="16dp"
+          android:text="Category"
+          />
+
+      <RadioGroup
+          android:id="@+id/category"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="fill_horizontal"
+          android:gravity="center_vertical"
+          android:layout_row="4"
+          android:layout_column="1"
+          android:checkedButton="@id/other"
+          android:orientation="vertical">
+
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Education" />
+
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Fitness" />
+
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Business" />
+
+          <RadioButton
+              android:id="@+id/other"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Other" />
+      </RadioGroup>
+
+      <Button
+          android:id="@+id/saveGoal"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="50dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_row="5"
+          android:layout_column="0"
+          android:layout_columnSpan="2"
+          android:padding="16dp"
+          android:text="Save"
+          />
+
+    </GridLayout>
+</ScrollView>

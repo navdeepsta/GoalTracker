@@ -1,6 +1,8 @@
 package com.navdeep.goaltracker.Presenter;
 
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.navdeep.goaltracker.GoalUtil;
 import com.navdeep.goaltracker.POJOs.Goal;
@@ -12,6 +14,8 @@ import com.navdeep.goaltracker.Repository.MilestoneModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 public class MilestonePresenter implements MilestoneModelViewPresenter.MilestonePresenter, Serializable {
@@ -57,39 +61,61 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     public void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer) {
         Calendar previousCalendar = GoalUtil.getCalendarObject(previousTime);
         Calendar currentCalendar = GoalUtil.getCalendarObject(currentTime);
-        setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
+      //  setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
         long diff = currentCalendar.getTime().getTime() - previousCalendar.getTime().getTime();
         int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-       // int diffmin = (int) (diff / (60 * 1000));
+
+        Goal goal = getGoal(goalId);
+        Calendar goalStartTime = GoalUtil.getCalendarObject(goal.getGoalStartTime());
+        Calendar cloneOfGoalStartTime = (Calendar) goalStartTime.clone();
+        Calendar endDateGoal = Calendar.getInstance();
+        endDateGoal.setTime(cloneOfGoalStartTime.getTime());
+
+        endDateGoal.add(Calendar.DAY_OF_MONTH, duration);
+        // int diffmin = (int) (diff / (60 * 1000));
         int milestoneListSize = getMilestones(goalId).size();
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         for (int i = 0; i < diffDays; ++i) {
             if (milestoneListSize < duration) {
                 createMilestone(goalId, "", currentTime, "", timer);
-                calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
+                calculateAndUpdateGoalProgress(goal, milestoneListSize * hour, duration);
                 milestoneListSize = getMilestones(goalId).size();
             }
         }
-
-        if (milestoneListSize == duration) {
-            calculateAndUpdateGoalProgress(goalId, milestoneListSize, duration);
+        if(currentCalendar.before(endDateGoal)){
+            Log.i("Goal Not ended yet","Before");
+            //start time
+            long td = currentCalendar.getTime().getTime()-goalStartTime.getTime().getTime();
+                int timeDifference =  (int)(td/(60*60*1000));
+                int totalHours = duration * 24;
+                float progress= ((float)timeDifference/(float)totalHours);
+                 int p =  (int)(progress*100);
+                Log.i("Progress",timeDifference+" "+totalHours+" "+p+"");
+                updateGoalProgress(goal, p);
+        }else{
+            Log.i("Goal ended","After");
+            updateGoalProgress(goal, 100);
         }
     }
 
-    private void calculateAndUpdateGoalProgress(int goalId, int milestoneListSize, int duration){
-       int goalProgress = (int) (100 * ((float) milestoneListSize / (float) (duration+1)));
-        updateGoalProgress(goalId, goalProgress);
-    }
-
-    private void updateGoalProgress(int goalId, int goalProgress){
+    private Goal getGoal(int goalId) {
         ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
-        for(Iterator itr = goals.iterator(); itr.hasNext();){
-            Goal goal = (Goal)itr.next();
-            if(goal.getGoalId() == goalId){
-                goal.setGoalProgress(goalProgress);
-                GoalPresenter.getGoalPresenter().incrementGoalProgress(goal);
+        for(Iterator itr = goals.iterator(); itr.hasNext();) {
+            Goal goal = (Goal) itr.next();
+            if (goal.getGoalId() == goalId) {
+              return goal;
             }
         }
+        return null;
+    }
+    private void calculateAndUpdateGoalProgress(Goal goal, int totalHoursPassed, int duration){
+       int goalProgress = (int) (100 * ((float) totalHoursPassed / (float) (duration *24)));
+        updateGoalProgress(goal, goalProgress);
+    }
 
+    private void updateGoalProgress(Goal goal, int goalProgress){
+                goal.setGoalProgress(goalProgress);
+                GoalPresenter.getGoalPresenter().incrementGoalProgress(goal);
     }
 
     @Override
