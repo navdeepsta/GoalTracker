@@ -1,15 +1,11 @@
 /* @author : Navdeep Singh
 *  The class manages a list of goals.
-*  Users can see a list of goals. They can delete any goal.
 * */
 package com.navdeep.goaltracker.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ActionMenuItemView;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -20,20 +16,15 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.navdeep.goaltracker.GoalListViewAdapter;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
 import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.Presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
-
 import java.util.ArrayList;
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
-    private ListView mGoalListView;
-    private FloatingActionButton floatingActionButton;
+    private ListView mGoalListView;;
     private GoalListViewAdapter goalListViewAdapter;
     private static GoalPresenter goalPresenter;
 
@@ -42,23 +33,26 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
         mGoalListView = findViewById(R.id.goalListView);
-       // floatingActionButton = findViewById(R.id.floatingActionButton);
+
         goalPresenter = GoalPresenter.getGoalPresenter(this);
+        setItemClickListenerOnGoalListView();
+        setMultiModeListenerOnGoalListView();
+    }
 
-
+    private void setItemClickListenerOnGoalListView() {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Goal> goals = goalPresenter.getGoals();
-                Intent intent = new Intent(GoalActivity.this, MilestoneActivity.class);
-                intent.putExtra(MilestoneActivity.GOAL_ID, goals.get(position).getGoalId());
-                startActivity(intent);
-            }
-        };
-
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ArrayList<Goal> goals = goalPresenter.getGoals();
+            Intent intent = new Intent(GoalActivity.this, MilestoneActivity.class);
+            intent.putExtra(MilestoneActivity.GOAL_ID, goals.get(position).getGoalId());
+            startActivity(intent);
+        }
+    };
         mGoalListView.setOnItemClickListener(itemClickListener);
+    }
 
-        /*This gives user an ability to select and delete multiple goals */
+    private void setMultiModeListenerOnGoalListView() {
         mGoalListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         mGoalListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             ArrayList<Goal> goals = new ArrayList<>();
@@ -71,11 +65,11 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
                     goals.add(goal);
                 }
                 TextView modeTitle = new TextView(GoalActivity.this);
-                modeTitle.setText(goals.size()+" items selected");
+                String numberOfGoalsSelected = goals.size()+" items selected";
+                modeTitle.setText(numberOfGoalsSelected);
                 modeTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
                 modeTitle.setTextSize(18);
                 mode.setCustomView(modeTitle);
-
             }
 
             @Override
@@ -107,16 +101,6 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
                 updateGoalListViewAdapter();
             }
         });
-
-        /*
-          floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
-                startActivity(intent);
-            }
-        });
-        */
     }
 
     @Override
@@ -161,13 +145,12 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
     @Override
     protected void onResume() {
         super.onResume();
-        goalPresenter.initiateMilestones(); /// update progress bar
+        goalPresenter.initiateMilestones(); //update progress bar
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
