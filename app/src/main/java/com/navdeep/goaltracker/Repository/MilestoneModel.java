@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.navdeep.goaltracker.GoalTrackerDatabaseConnection;
+import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
 import com.navdeep.goaltracker.POJOs.MilestoneImage;

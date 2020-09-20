@@ -2,32 +2,31 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent">
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ScrollView android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="200dp"
-        android:layout_marginRight="200dp"
         android:orientation="vertical">
 
-        <GridLayout
-            android:layout_width="match_parent"
+        <GridLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
             android:columnCount="2"
             android:padding="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_mode_edit_black_50dp" />
+                android:layout_row = "0"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/ic_mode_edit_black_50dp"
+                />
 
             <EditText
                 android:id="@+id/goalName"
@@ -37,158 +36,164 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal|center"
                 android:gravity="bottom"
+                android:textColor="@color/light_black"
                 android:hint="@string/goal_hint"
-                android:textColor="@color/colorPrimary" />
+                />
 
             <ImageView
                 android:id="@+id/duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_date_range_black_50dp" />
+                android:layout_row = "1"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/ic_date_range_black_50dp"
+                />
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="fill_horizontal"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:orientation="horizontal">
-
+                    android:orientation="horizontal"
+                    >
                     <Spinner
                         android:id="@+id/years"
-                        style="@style/SpinnerStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"></Spinner>
-
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
                     <TextView
                         android:id="@+id/year"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/years"
-
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/years" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content"
+                    >
                     <Spinner
                         android:id="@+id/months"
-                        style="@style/SpinnerStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"></Spinner>
-
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
                     <TextView
                         android:id="@+id/month"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/months"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/months"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content"
+                    >
                     <Spinner
                         android:id="@+id/days"
-                        style="@style/SpinnerStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"></Spinner>
-
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
                     <TextView
                         android:id="@+id/day"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/days"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/days"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
 
+
             <ImageView
                 android:id="@+id/categoryIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_margin="16dp"
-                android:src="@drawable/category_icon" />
+                android:layout_row = "4"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/category_icon"
+                />
 
             <RadioGroup
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="center_vertical"
                 android:layout_row="4"
                 android:layout_column="1"
-                android:layout_gravity="fill_horizontal"
                 android:checkedButton="@id/other"
-                android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <RadioButton
                     android:id="@+id/education"
-                    style="@style/RadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="checkButton"
-                    android:text="Education" />
+                    style="@style/RadioButtonStyle"
+                    android:text="Education"
+                    android:onClick="checkButton"/>
 
                 <RadioButton
                     android:id="@+id/fitness"
-                    style="@style/RadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="checkButton"
-                    android:text="Fitness" />
+                    style="@style/RadioButtonStyle"
+                    android:text="Fitness"
+                    android:onClick="checkButton"/>
 
                 <RadioButton
                     android:id="@+id/business"
-                    style="@style/RadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="checkButton"
-                    android:text="Business" />
+                    style="@style/RadioButtonStyle"
+                    android:text="Business"
+                    android:onClick="checkButton"/>
 
                 <RadioButton
                     android:id="@+id/other"
-                    style="@style/RadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/RadioButtonStyle"
+                    android:text="Other"
                     android:checked="true"
-                    android:onClick="checkButton"
-                    android:text="Other" />
+                    android:onClick="checkButton"/>
             </RadioGroup>
+
 
 
         </GridLayout>
 
     </ScrollView>
-
     <Button
         android:id="@+id/saveGoal"
         style="@style/Widget.AppCompat.Button.Small"
@@ -196,5 +201,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/ic_save_black_50dp" />
+        android:background="@drawable/ic_save_black_50dp"
+        />
 </RelativeLayout>

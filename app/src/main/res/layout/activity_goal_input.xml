@@ -2,30 +2,31 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent">
 
-   <ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <GridLayout android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:columnCount="2"
-        android:padding="16dp"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_row = "0"
-            android:layout_column ="0"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_mode_edit_black_50dp"
-            />
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:columnCount="2"
+            android:padding="16dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row = "0"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/ic_mode_edit_black_50dp"
+                />
 
             <EditText
                 android:id="@+id/goalName"
@@ -35,164 +36,164 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal|center"
                 android:gravity="bottom"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/light_black"
                 android:hint="@string/goal_hint"
-                 />
+                />
 
             <ImageView
-            android:id="@+id/duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row = "1"
-            android:layout_column ="0"
-           android:layout_margin="16dp"
-            android:src="@drawable/ic_date_range_black_50dp"
-            />
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row = "1"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/ic_date_range_black_50dp"
+                />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center"
-            android:padding="16dp"
-            >
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="center"
+                android:padding="16dp"
                 >
-                <Spinner
-                    android:id="@+id/years"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/SpinnerStyle"
-                    android:layout_marginRight="10dp"
-                   >
-                </Spinner>
-                <TextView
-                    android:id="@+id/year"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/years" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-                <Spinner
-                    android:id="@+id/months"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/SpinnerStyle"
-                    android:layout_marginRight="10dp"
-                   >
-                </Spinner>
-                <TextView
-                    android:id="@+id/month"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/months"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-                <Spinner
-                    android:id="@+id/days"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/SpinnerStyle"
-                    android:layout_marginRight="10dp"
+                    android:gravity="start"
+                    android:orientation="horizontal"
                     >
-                </Spinner>
-                <TextView
-                    android:id="@+id/day"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/years"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
+                    <TextView
+                        android:id="@+id/year"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/years" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/days"/>
+                    >
+                    <Spinner
+                        android:id="@+id/months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
+                    <TextView
+                        android:id="@+id/month"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/months"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Spinner
+                        android:id="@+id/days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SpinnerStyle"
+                        android:layout_marginRight="10dp"
+                        >
+                    </Spinner>
+                    <TextView
+                        android:id="@+id/day"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_black"
+                        android:text="@string/days"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
 
 
-
-        <ImageView
-            android:id="@+id/categoryIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row = "4"
-            android:layout_column ="0"
-            android:layout_margin="16dp"
-            android:src="@drawable/category_icon"
-            />
-
-        <RadioGroup
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center_vertical"
-            android:layout_row="4"
-            android:layout_column="1"
-            android:checkedButton="@id/other"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <RadioButton
-                android:id="@+id/education"
+            <ImageView
+                android:id="@+id/categoryIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RadioButtonStyle"
-                android:text="Education"
-                android:onClick="checkButton"/>
+                android:layout_row = "4"
+                android:layout_column ="0"
+                android:layout_margin="30dp"
+                android:src="@drawable/category_icon"
+                />
 
-            <RadioButton
-                android:id="@+id/fitness"
+            <RadioGroup
+                android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RadioButtonStyle"
-                android:text="Fitness"
-                android:onClick="checkButton"/>
+                android:layout_gravity="fill_horizontal"
+                android:gravity="center_vertical"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:checkedButton="@id/other"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <RadioButton
-                android:id="@+id/business"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/RadioButtonStyle"
-                android:text="Business"
-                android:onClick="checkButton"/>
+                <RadioButton
+                    android:id="@+id/education"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonStyle"
+                    android:text="Education"
+                    android:onClick="checkButton"/>
 
-            <RadioButton
-                android:id="@+id/other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/RadioButtonStyle"
-                android:text="Other"
-                android:checked="true"
-                android:onClick="checkButton"/>
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/fitness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonStyle"
+                    android:text="Fitness"
+                    android:onClick="checkButton"/>
+
+                <RadioButton
+                    android:id="@+id/business"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonStyle"
+                    android:text="Business"
+                    android:onClick="checkButton"/>
+
+                <RadioButton
+                    android:id="@+id/other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButtonStyle"
+                    android:text="Other"
+                    android:checked="true"
+                    android:onClick="checkButton"/>
+            </RadioGroup>
 
 
 
-    </GridLayout>
+        </GridLayout>
 
- </ScrollView>
+    </ScrollView>
     <Button
         android:id="@+id/saveGoal"
         style="@style/Widget.AppCompat.Button.Small"

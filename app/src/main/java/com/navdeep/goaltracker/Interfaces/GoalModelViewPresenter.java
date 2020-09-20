@@ -4,7 +4,7 @@
 package com.navdeep.goaltracker.Interfaces;
 import android.content.Context;
 
-import com.navdeep.goaltracker.GoalTime;
+import com.navdeep.goaltracker.Utility.GoalTime;
 import com.navdeep.goaltracker.POJOs.Goal;
 import java.util.ArrayList;
 

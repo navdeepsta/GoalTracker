@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.navdeep.goaltracker.GoalTrackerDatabaseConnection;
+import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
 import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
 

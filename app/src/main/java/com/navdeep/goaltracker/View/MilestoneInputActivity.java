@@ -1,62 +1,49 @@
 package com.navdeep.goaltracker.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.navdeep.goaltracker.GoalUtil;
-import com.navdeep.goaltracker.ImageAdapter;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.MilestoneTimer;
+import com.navdeep.goaltracker.Utility.MilestoneTimer;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-public class MilestoneInputActivity extends AppCompatActivity implements MilestoneModelViewPresenter.MilestoneInputView {
+public class MilestoneInputActivity extends AppCompatActivity implements MilestoneModelViewPresenter.MilestoneInputView
+,NoteFragment.OnNoteFragmentInteractionListener, ImageInputFragment.OnImageInputFragmentInteractionListener, ImageFragment.OnFragmentInteractionListener{
     public static final String INPUT_FLAG = "inputflag";
     public static final String MILESTONE_ID = "milestonePosition";
     public static final String GOAL_ID = "goalId";
-    private EditText description, title;
     private TextView timer;
-    private Button gallery;
     private ImageView start;
-
-
+    private Button noteButton, imageButton;
     private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
 
     private Milestone milestone;
     MilestoneTimer milestoneTimer;
     private int goalId, milestoneId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_milestone_input);
+        noteButton = findViewById(R.id.note_button);
+        imageButton = findViewById(R.id.image_button);
+        setListenersOnNoteAndImageButton();
         setContentViewItems();
         setGoalPositionAndId();
+        createNoteFragment();
 
 
         milestone = getMilestone();
@@ -67,14 +54,41 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    private void setListenersOnNoteAndImageButton() {
+        noteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNoteFragment();
+            }
+        });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createImageFragment();
+            }
+        });
+    }
 
+
+    private void createNoteFragment() {
+        NoteFragment noteFragment = NoteFragment.newInstance(goalId, milestoneId);
+
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameContainer, noteFragment)
+                .commit();
+
+
+    }
+    private void createImageFragment() {
+        ImageInputFragment imageInputFragment = ImageInputFragment.newInstance(goalId,milestoneId);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameContainer, imageInputFragment)
+                .commit();
+    }
 
     private void setContentViewItems() {
         timer = findViewById(R.id.timer);
         start = findViewById(R.id.start);
-        description = findViewById(R.id.description);
-        title = findViewById(R.id.milestoneTitle);
-        gallery = findViewById(R.id.gallery);
 
     }
 
@@ -94,49 +108,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     }
 
     private void setListenersOnActivityItems() {
-        setListenerOnDescriptionEditText();
-        setListenerOnTitleEditText();
         setListenersOnStartButton();
-        setListenerOnGalleryButton();
     }
-
-
-
-
-    private void setListenerOnDescriptionEditText() {
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String description = s.toString();
-                milestone.setDescription(description);
-            }
-        });
-    }
-
-    private void setListenerOnTitleEditText() {
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = s.toString();
-                milestone.setTitle(text);
-            }
-        });
-    }
-
-
 
     private void setListenersOnStartButton() {
         start.setOnClickListener(new View.OnClickListener() {
@@ -166,26 +139,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         }
         start.setImageResource(R.drawable.ic_play_circle_filled_black_50dp);
     }
-    private void setListenerOnGalleryButton() {
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MilestoneInputActivity.this, MilestoneImageActivity.class);
-                intent.putExtra(MilestoneImageActivity.GOAL_ID, goalId);
-                intent.putExtra(MilestoneImageActivity.MILESTONE_ID, milestoneId);
-                startActivity(intent);
-            }
-        });
-
-    }
 
 
-
-    @Override
-    public void showDescription() {
-    description.setText(milestone.getDescription());
-    title.setText(milestone.getTitle());
-    }
 
 
 
@@ -223,5 +178,40 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         milestoneTimer.setMilestoneTimer(timer.getText().toString());
         milestone.setTimer(milestoneTimer.getMilestoneTimer());
         milestonePresenter.updateMilestone(milestone);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public void chooseFragment(View v) {
+        switch (v.getId()) {
+            case R.id.note_button:
+
+                break;
+            case R.id.image_button:
+
+                break;
+                default:
+        }
+    }
+
+    @Override
+    public void onNoteFragmentInteraction(Milestone milestone) {
+       this.milestone = milestone;
+    }
+
+    @Override
+    public void showDescription() {
+
+    }
+
+    @Override
+    public void onImageInputFragmentInteraction(int imageId) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra(ImageActivity.MILESTONE_ID, milestoneId);
+        intent.putExtra(ImageActivity.IMAGE_ID,imageId);
+        startActivity(intent);
     }
 }

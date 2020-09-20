@@ -15,6 +15,8 @@
     <string name="milestone_title_hint">Title</string>
     <string name="milestone_description_hint">Description</string>
     <string name="timer">00:00:00</string>
+    <string name="status_active">ACTIVE</string>
+    <string name="status_idle">INACTIVE</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="gallery">GALLERY</string>
@@ -22,4 +24,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- -->
 
+    <!-- NoteFragment -->
+    <string name="note_title_hint">Title</string>
+    <string name="note_description_hint">Description</string>
 </resources>

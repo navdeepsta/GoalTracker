@@ -1,5 +1,5 @@
 package com.navdeep.goaltracker.POJOs;
-import com.navdeep.goaltracker.GoalUtil;
+import com.navdeep.goaltracker.Utility.GoalUtil;
 public class Goal{
     private int goalId;
     private String categoryName;

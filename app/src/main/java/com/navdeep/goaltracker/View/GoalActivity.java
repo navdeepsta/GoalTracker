@@ -4,41 +4,40 @@
 package com.navdeep.goaltracker.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import com.navdeep.goaltracker.GoalListViewAdapter;
+
+import com.navdeep.goaltracker.Adapters.GoalAdapter;
+import com.navdeep.goaltracker.Utility.GoalListViewAdapter;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
-import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.Presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
-import java.util.ArrayList;
+import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
-    private ListView mGoalListView;;
+   // private ListView mGoalListView;;
     private GoalListViewAdapter goalListViewAdapter;
     private static GoalPresenter goalPresenter;
+    private RecyclerView goalRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goal);
-        mGoalListView = findViewById(R.id.goalListView);
-
+        setContentView(R.layout.activity_goal_recycler);
+      //  mGoalListView = findViewById(R.id.goalListView);
+        goalRecycler = findViewById(R.id.goal_recycler);
         goalPresenter = GoalPresenter.getGoalPresenter(this);
-        setItemClickListenerOnGoalListView();
-        setMultiModeListenerOnGoalListView();
+    //    setItemClickListenerOnGoalListView();
+      //  setMultiModeListenerOnGoalListView();
     }
-
+/*
     private void setItemClickListenerOnGoalListView() {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -102,10 +101,10 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
             }
         });
     }
-
+*/
     @Override
     public void displayGoals() {
-        updateGoalListViewAdapter();
+        updateGoalRecyclerViewAdapter();
     }
 
     @Override
@@ -158,11 +157,15 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         super.onStart();
         goalPresenter.createGoalTrackerDatabase();
         goalPresenter.initiateMilestones(); // update progress bar
-        updateGoalListViewAdapter();
+        updateGoalRecyclerViewAdapter();
     }
 
-    private void updateGoalListViewAdapter(){
-        goalListViewAdapter=new GoalListViewAdapter(GoalActivity.this, goalPresenter.getGoals());
-        mGoalListView.setAdapter(goalListViewAdapter);
+    private void updateGoalRecyclerViewAdapter(){
+//        goalListViewAdapter=new GoalListViewAdapter(GoalActivity.this, goalPresenter.getGoals());
+
+        RecyclerAdapter goalAdapter = new GoalAdapter(goalPresenter.getGoals(), this);
+        goalRecycler.setAdapter(goalAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        goalRecycler.setLayoutManager(layoutManager);
     }
 }

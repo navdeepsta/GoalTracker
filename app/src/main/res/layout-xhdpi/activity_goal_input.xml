@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent">
 
    <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +36,7 @@
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal|center"
                 android:gravity="bottom"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/light_black"
                 android:hint="@string/goal_hint"
                  />
 
@@ -79,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/light_black"
                     android:text="@string/years" />
 
             </LinearLayout>
@@ -102,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/light_black"
                     android:text="@string/months"/>
             </LinearLayout>
             <LinearLayout
@@ -123,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/light_black"
                     android:text="@string/days"/>
 
             </LinearLayout>

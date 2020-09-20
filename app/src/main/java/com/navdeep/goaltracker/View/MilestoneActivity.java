@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.MilestoneAdapter;
+import com.navdeep.goaltracker.Adapters.MilestoneAdapter;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
+import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -47,7 +44,7 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
     @Override
     protected void onResume() {
         super.onResume();
-        MilestoneAdapter milestoneAdapter = new MilestoneAdapter(milestonePresenter.getMilestones(goalId), this, goalId);
+        RecyclerAdapter milestoneAdapter = new MilestoneAdapter(milestonePresenter.getMilestones(goalId), this, goalId);
         milestoneRecycler.setAdapter(milestoneAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         milestoneRecycler.setLayoutManager(layoutManager);

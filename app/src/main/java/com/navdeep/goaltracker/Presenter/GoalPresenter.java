@@ -3,8 +3,8 @@ package com.navdeep.goaltracker.Presenter;
 import android.database.SQLException;
 import android.widget.Toast;
 
-import com.navdeep.goaltracker.GoalTime;
-import com.navdeep.goaltracker.GoalTrackerDatabaseConnection;
+import com.navdeep.goaltracker.Utility.GoalTime;
+import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
 import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
 import com.navdeep.goaltracker.POJOs.Milestone;

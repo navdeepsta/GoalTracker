@@ -1,10 +1,8 @@
 package com.navdeep.goaltracker.Presenter;
 
-import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.navdeep.goaltracker.GoalUtil;
+import com.navdeep.goaltracker.Utility.GoalUtil;
 import com.navdeep.goaltracker.POJOs.Goal;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
@@ -14,8 +12,6 @@ import com.navdeep.goaltracker.Repository.MilestoneModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 public class MilestonePresenter implements MilestoneModelViewPresenter.MilestonePresenter, Serializable {

@@ -16,14 +16,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-import com.navdeep.goaltracker.GoalTime;
+import com.navdeep.goaltracker.Utility.GoalTime;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
-import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
 import com.navdeep.goaltracker.Presenter.GoalPresenter;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
