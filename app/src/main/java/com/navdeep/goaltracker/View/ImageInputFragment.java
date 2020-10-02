@@ -9,41 +9,62 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.navdeep.goaltracker.Adapters.MilestoneImageAdapter;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.POJOs.MilestoneImage;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
+import com.navdeep.goaltracker.Utility.GoalUtil;
 import com.navdeep.goaltracker.Utility.ImageAdapter;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class ImageInputFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_GOAL_ID = "param1";
     private static final String ARG_MILESTONE_ID = "param2";
-    private static final int REQUEST_CAMERA = 1;
+    private static final int REQUEST_CAMERA_CODE = 1;
+    private static final int REQUEST_PERMISSION = 2;
     private int milestoneId, goalId;
-    private GridView gridView;
+    private TextView dateTextView;
     private Button addImage;
     private Milestone milestone;
     private ImageAdapter imageAdapter;
+    private MilestoneImageAdapter milestoneImageAdapter;
+    private RecyclerView imageRecycler;
+    private String currentPhotoPath;
     private OnImageInputFragmentInteractionListener mListener;
 
     public ImageInputFragment() {
@@ -74,10 +95,15 @@ public class ImageInputFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_input_image, container, false);
-        gridView = view.findViewById(R.id.grid_imageview);
+        View view = inflater.inflate(R.layout.fragment_input_image_recycler, container, false);
+        imageRecycler = view.findViewById(R.id.image_recycler);
         addImage = view.findViewById(R.id.add_image);
+        dateTextView = view.findViewById(R.id.date);
         milestone = getMilestone();
+        Calendar calendar = GoalUtil.getCalendarObject(milestone.getTime());
+       String date = GoalUtil.dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+", "+calendar.get(Calendar.DATE)+" "
+                +GoalUtil.months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR);
+       dateTextView.setText(date);
         updateImageAdapter();
         setListenerOnImageButton();
         setOnItemClickListenerOnGridView();
@@ -98,57 +124,100 @@ public class ImageInputFragment extends Fragment {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ask for camera permission from the user
-                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                    //Toast.makeText(MilestoneInputActivity.this, "You have no permission to access camera", Toast.LENGTH_LONG).show();
-                    //Explanation
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)){
-                        Toast.makeText(getActivity(), "More than once asking for permission",  Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    }else{
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    }
-                }else {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                }
+                askForCameraPermission();
             }
         });
     }
 
+    private void askForCameraPermission() {
+        //Check if the permission is granted. If granted, ask the user for camera permission. Else continue to take picture.
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED ){
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION);
+        }else{
+            dispatchTakePictureIntent();
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_PERMISSION){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                dispatchTakePictureIntent();
+            }else{
+                Toast.makeText(getActivity(), "Camera permission is required to take a picture", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "com.navdeep.goaltracker.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        // File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_CAMERA){
-                Bundle bundle = data.getExtras();
-                final Bitmap bitmap = (Bitmap)bundle.get("data");
-                /* TODO add a bitmap to a database
-                 *  */
-                // bitmaps.add(bitmap);
-                MilestoneImage image = new MilestoneImage(bitmap, Calendar.getInstance());
+        if (requestCode == REQUEST_CAMERA_CODE) {
+            if(resultCode == RESULT_OK){
+                File file = new File(currentPhotoPath);
+                MilestoneImage image = new MilestoneImage(currentPhotoPath, Calendar.getInstance());
                 MilestonePresenter.getMilestonePresenter().addImage(milestone.getMilestoneId(), image);
-
                 updateImageAdapter();
-
-                // milestone.setBitmap(bitmaps);
-                //   cameraImage.setImageBitmap(milestone.getBitmap());
+               // Picasso.with(getActivity()).load(Uri.fromFile(file)).fit().centerCrop().into(image_camera_view);
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri contentUri = Uri.fromFile(file);
+                mediaScanIntent.setData(contentUri);
+                getActivity().sendBroadcast(mediaScanIntent);
             }
         }
     }
 
     private void setOnItemClickListenerOnGridView() {
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<MilestoneImage> images = getImages();
                 int imageId =  images.get(position).getImageId();
                 mListener.onImageInputFragmentInteraction(imageId);
             }
-        });
+        });*/
     }
+
     private void updateImageAdapter(){
-        imageAdapter =  new ImageAdapter(getActivity(), getImages());
-        gridView.setAdapter(imageAdapter);
+        milestoneImageAdapter =  new MilestoneImageAdapter(getImages(),getActivity(), milestoneId);
+        imageRecycler.setAdapter(milestoneImageAdapter);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        imageRecycler.setLayoutManager(layoutManager);
     }
 
     private ArrayList<MilestoneImage> getImages(){

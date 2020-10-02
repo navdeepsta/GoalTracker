@@ -11,6 +11,7 @@ public class MilestoneTimer {
     private String time="00:00:00";
     private int runTimerCount = 0;
     private boolean running = false;
+
     public void setRunning(boolean running){this.running = running;}
     public boolean isRunning(){return running;}
     public Handler getHandler(){
@@ -19,8 +20,7 @@ public class MilestoneTimer {
     public Runnable getRunnable(){
         return runnable;
     }
-    public void setSeconds(int seconds){
-        this.seconds = seconds;
+    public void setSeconds(int seconds){ this.seconds = seconds;
     }
     public int getSeconds(){
         return seconds;
@@ -32,14 +32,11 @@ public class MilestoneTimer {
     public void setRunTimerCounterToZero(){
         runTimerCount = 0;
     }
+
     public void runTimer(final TextView textView) {
         ++runTimerCount;
         if (runTimerCount < 2) {
-            String[] timeUnits = textView.getText().toString().split(":");
-            int hour = Integer.valueOf(timeUnits[0].trim());
-            int min = Integer.valueOf(timeUnits[1]);
-            int sec = Integer.valueOf(timeUnits[2]);
-            seconds = (hour * 3600) + (min * 60) + sec;
+            seconds = getSecondsFromTextView(textView);
             handler = new android.os.Handler();
             runnable = new Runnable() {
                 @Override
@@ -69,5 +66,12 @@ public class MilestoneTimer {
             };
             handler.post(runnable);
         }
+    }
+    private int getSecondsFromTextView(TextView textView) {
+        String[] timeUnits = textView.getText().toString().split(":");
+        int hour = Integer.valueOf(timeUnits[0].trim());
+        int min = Integer.valueOf(timeUnits[1]);
+        int sec = Integer.valueOf(timeUnits[2]);
+        return (hour * 3600) + (min * 60) + sec;
     }
 }

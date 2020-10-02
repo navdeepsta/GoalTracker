@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f0e09e</color>
-    <color name="colorPrimaryDark">#bcae6f</color>
-    <color name="colorAccent">#ffffd0</color>
-    <color name="colorSecondary">#9eaef0</color>
-    <color name="colorSecondaryDark">#6d7fbd</color>
-    <color name="colorSecondaryAccent">#d1e0ff</color>
-    <color name="baselineBackgroundBolor">#FFFFFF</color>
-    <color name="baselineSurfaceColor">#FFFFFF</color>
-    <color name="baselineErrorColor">#E7515C</color>
+    <color name="colorPrimary">#a7abe0</color>
+    <color name="colorPrimaryDark">#777cae</color>
+    <color name="colorAccent">#d9ddff</color>
+    <color name="colorSecondary">#bfa7e0</color>
+    <color name="colorSecondaryDark">#8e78ae</color>
+    <color name="colorSecondaryAccent">#f2d9ff</color>
+    <color name="baselineBackgroundColor">#F7F7F7</color>
+    <color name="baselineSurfaceColor">#F7F7F7</color>
+    <color name="baselineErrorColor">#E0A7AB</color>
+    <color name="baselineOkayColor">#ABE0A7</color>
     <color name="onPrimaryColor">#000000</color>
     <color name="onPrimaryDark">#000000</color>
     <color name="onColorAccent">#000000</color>

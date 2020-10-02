@@ -6,15 +6,15 @@ import java.util.Calendar;
 
 public class MilestoneImage {
      private int imageId;
-     private Bitmap bitmap;
+     private String imageUri;
      private Calendar calendar;
 
-     public  MilestoneImage(Bitmap bitmap, Calendar calendar) {
-         this.bitmap = bitmap;
+     public  MilestoneImage(String imageUri, Calendar calendar) {
+         this.imageUri = imageUri;
          this.calendar = calendar;
      }
-     public MilestoneImage(int imageId, Bitmap bitmap, Calendar calendar) {
-         this(bitmap, calendar);
+     public MilestoneImage(int imageId, String imageUri, Calendar calendar) {
+         this(imageUri, calendar);
          this.imageId = imageId;
      }
 
@@ -22,8 +22,8 @@ public class MilestoneImage {
          return imageId;
      }
 
-     public Bitmap getBitmap(){
-         return bitmap;
+     public String getImageUri(){
+         return imageUri;
      }
 
     public Calendar getCalendar() {

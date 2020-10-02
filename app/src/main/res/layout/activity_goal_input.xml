@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/colorAccent">
-
+    android:orientation="vertical"
+    android:background="@color/baselineBackgroundColor">
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"/>
     <ScrollView android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -30,6 +32,7 @@
 
             <EditText
                 android:id="@+id/goalName"
+                android:inputType="text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
@@ -38,6 +41,7 @@
                 android:gravity="bottom"
                 android:textColor="@color/light_black"
                 android:hint="@string/goal_hint"
+
                 />
 
             <ImageView
@@ -189,18 +193,24 @@
                     android:onClick="checkButton"/>
             </RadioGroup>
 
-
+            <Button
+                android:id="@+id/saveGoal"
+                android:layout_row="5"
+                android:layout_column="1"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:text="SAVE"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:background="@color/colorSecondary"
+                />
 
         </GridLayout>
 
     </ScrollView>
-    <Button
-        android:id="@+id/saveGoal"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/ic_save_black_50dp"
-        />
-</RelativeLayout>
+
+</LinearLayout>

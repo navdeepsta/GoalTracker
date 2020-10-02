@@ -9,16 +9,16 @@ import java.util.Date;
 public class GoalUtil {
     /* To get formatted date & time of goal object */
     public static String getStartTime(Calendar calendar){
-        return dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)-1]+"\n"+calendar.get(Calendar.DATE)+" "
+        return dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+"\n"+calendar.get(Calendar.DATE)+" "
                 +months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR)
                 +"\n"+getTime(calendar);
     }
 
-    private static String[] dayOfWeek = {"Invalid Day", "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday", "Sunday"
+    public static String[] dayOfWeek = {"Invalid Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday"
     };
 
-    private static String[] months = {"Jan", "Feb", "Mar", "Apr", "May",
+    public static String[] months = {"Jan", "Feb", "Mar", "Apr", "May",
             "Jun", "Jul", "Aug", "Sept", "Oct",
             "Nov", "Dec"
     };

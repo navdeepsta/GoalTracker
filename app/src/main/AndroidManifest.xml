@@ -25,9 +25,23 @@
             android:name=".View.MilestoneInputActivity"
             android:screenOrientation="portrait"
             android:label="Task Details" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.navdeep.goaltracker.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
         <activity
             android:name=".View.MilestoneActivity"
-            android:label="Tasks" />
+            android:label="Tasks"
+            android:parentActivityName=".View.GoalActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".View.GoalActivity" />
+        </activity>
         <activity
             android:name=".View.GoalActivity"
             android:label="Goals"

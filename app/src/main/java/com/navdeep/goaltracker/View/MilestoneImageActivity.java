@@ -116,7 +116,7 @@ public class MilestoneImageActivity extends AppCompatActivity {
                 /* TODO add a bitmap to a database
                  *  */
                 // bitmaps.add(bitmap);
-                MilestoneImage image = new MilestoneImage(bitmap, Calendar.getInstance());
+                MilestoneImage image = new MilestoneImage("imageUri", Calendar.getInstance());
                 MilestonePresenter.getMilestonePresenter().addImage(milestone.getMilestoneId(), image);
 
                 updateImageAdapter();

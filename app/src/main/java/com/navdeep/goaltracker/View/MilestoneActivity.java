@@ -1,6 +1,8 @@
 package com.navdeep.goaltracker.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +32,11 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_milestone_recycler);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Tasks");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         milestoneRecycler = findViewById(R.id.milestone_recycler);
 
         goalId = getIntent().getIntExtra(MilestoneActivity.GOAL_ID, 0);

@@ -1,8 +1,13 @@
 package com.navdeep.goaltracker.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +30,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
     public static final String INPUT_FLAG = "inputflag";
     public static final String MILESTONE_ID = "milestonePosition";
     public static final String GOAL_ID = "goalId";
+    public static final int REQUEST_STORAGE_PERMISSION = 101;
     private TextView timer;
     private ImageView start;
     private Button noteButton, imageButton;
@@ -44,9 +50,8 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         setContentViewItems();
         setGoalPositionAndId();
         createNoteFragment();
-
-
         milestone = getMilestone();
+        timer.setText(milestone.getTimer());
         milestoneTimer = new MilestoneTimer();
         milestonePresenter = MilestonePresenter.getMilestonePresenter(this);
         setListenersOnActivityItems();
@@ -59,12 +64,16 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             @Override
             public void onClick(View v) {
                 createNoteFragment();
+                noteButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                imageButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
         });
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createImageFragment();
+                noteButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                imageButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             }
         });
     }
@@ -80,11 +89,35 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
 
     }
     private void createImageFragment() {
+        askForStoragePermissions();
+    }
+
+    private void askForStoragePermissions() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED ){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+        }else {
+            createFragment();
+        }
+    }
+
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_STORAGE_PERMISSION){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                createFragment();
+            }else{
+                Toast.makeText(this, "Storage permission is required to access images", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void createFragment() {
         ImageInputFragment imageInputFragment = ImageInputFragment.newInstance(goalId,milestoneId);
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.frameContainer, imageInputFragment)
                 .commit();
     }
+
 
     private void setContentViewItems() {
         timer = findViewById(R.id.timer);
@@ -116,9 +149,7 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             @Override
             public void onClick(View v) {
                 if(!milestoneTimer.isRunning()) {
-                    milestoneTimer.runTimer(timer);
-                    milestoneTimer.setRunning(true);
-                    start.setImageResource(R.drawable.ic_stop_black_50dp);
+                    runTimer();
                 }else {
                     pauseTimer();
                     milestoneTimer.setRunning(false);
@@ -127,12 +158,18 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
             }
         });
     }
-
+   private  void runTimer(){
+       milestoneTimer.runTimer(timer);
+       milestoneTimer.setRunning(true);
+       start.setImageResource(R.drawable.ic_stop_black_50dp);
+   }
 
     private void pauseTimer(){
         if(milestoneTimer!=null){
-            milestoneTimer.setSeconds(milestoneTimer.getSeconds());
+            milestoneTimer.setMilestoneTimer(timer.getText().toString());
+            milestone.setTimer(milestoneTimer.getMilestoneTimer());
             milestoneTimer.setRunTimerCounterToZero();
+
             if(milestoneTimer.getHandler()!=null) {
                 milestoneTimer.getHandler().removeCallbacks(milestoneTimer.getRunnable());
             }
@@ -151,7 +188,10 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         showDescription();
         disableInputsForOldMilestones();
         updateTimerTextView();
+
     }
+
+
 
     private void disableInputsForOldMilestones(){
         boolean inputFlag = getIntent().getBooleanExtra(INPUT_FLAG, true);
@@ -185,17 +225,6 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
 
     }
 
-    public void chooseFragment(View v) {
-        switch (v.getId()) {
-            case R.id.note_button:
-
-                break;
-            case R.id.image_button:
-
-                break;
-                default:
-        }
-    }
 
     @Override
     public void onNoteFragmentInteraction(Milestone milestone) {
@@ -213,5 +242,26 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         intent.putExtra(ImageActivity.MILESTONE_ID, milestoneId);
         intent.putExtra(ImageActivity.IMAGE_ID,imageId);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(milestoneTimer.isRunning()) {
+            runTimer();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        milestonePresenter.updateMilestone(milestone);
+
     }
 }

@@ -3,17 +3,21 @@
 * */
 package com.navdeep.goaltracker.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.navdeep.goaltracker.Adapters.GoalAdapter;
 import com.navdeep.goaltracker.Utility.GoalListViewAdapter;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
@@ -22,86 +26,29 @@ import com.navdeep.goaltracker.R;
 import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
-   // private ListView mGoalListView;;
-    private GoalListViewAdapter goalListViewAdapter;
     private static GoalPresenter goalPresenter;
     private RecyclerView goalRecycler;
-
+    private FloatingActionButton floatingActionAddGoal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_recycler);
-      //  mGoalListView = findViewById(R.id.goalListView);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
         goalRecycler = findViewById(R.id.goal_recycler);
+        floatingActionAddGoal = findViewById(R.id.floatingActionAddGoal);
         goalPresenter = GoalPresenter.getGoalPresenter(this);
-    //    setItemClickListenerOnGoalListView();
-      //  setMultiModeListenerOnGoalListView();
-    }
-/*
-    private void setItemClickListenerOnGoalListView() {
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ArrayList<Goal> goals = goalPresenter.getGoals();
-            Intent intent = new Intent(GoalActivity.this, MilestoneActivity.class);
-            intent.putExtra(MilestoneActivity.GOAL_ID, goals.get(position).getGoalId());
-            startActivity(intent);
-        }
-    };
-        mGoalListView.setOnItemClickListener(itemClickListener);
-    }
 
-    private void setMultiModeListenerOnGoalListView() {
-        mGoalListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mGoalListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-            ArrayList<Goal> goals = new ArrayList<>();
+        floatingActionAddGoal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                Goal goal = (Goal)goalListViewAdapter.getItem(position);
-                if(goals.contains(goal)){
-                    goals.remove(goal);
-                }else {
-                    goals.add(goal);
-                }
-                TextView modeTitle = new TextView(GoalActivity.this);
-                String numberOfGoalsSelected = goals.size()+" items selected";
-                modeTitle.setText(numberOfGoalsSelected);
-                modeTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
-                modeTitle.setTextSize(18);
-                mode.setCustomView(modeTitle);
-            }
-
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.goal_context_menu, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                if(item.getItemId() == R.id.delete_Goal) {
-                    goalPresenter.deleteGoals(goals);
-                    mode.finish();
-                    goalListViewAdapter.notifyDataSetChanged();
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-                goals.clear();
-                updateGoalListViewAdapter();
+            public void onClick(View view) {
+                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
+                startActivity(intent);
             }
         });
     }
-*/
+
     @Override
     public void displayGoals() {
         updateGoalRecyclerViewAdapter();
@@ -125,10 +72,6 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_goal:
-                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
-                startActivity(intent);
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -161,8 +104,6 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
     }
 
     private void updateGoalRecyclerViewAdapter(){
-//        goalListViewAdapter=new GoalListViewAdapter(GoalActivity.this, goalPresenter.getGoals());
-
         RecyclerAdapter goalAdapter = new GoalAdapter(goalPresenter.getGoals(), this);
         goalRecycler.setAdapter(goalAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

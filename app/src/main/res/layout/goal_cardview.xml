@@ -4,17 +4,18 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/milestone_cardview"
+    android:id="@+id/goal_cardview"
     android:layout_margin="5dp"
     card_view:cardCornerRadius="4dp"
-    android:backgroundTint="#ffffd0"
+    android:background="@color/baselineSurfaceColor"
+    android:backgroundTintMode="multiply"
+    android:backgroundTint="@color/baselineSurfaceColor"
     >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@drawable/background_activated"
         >
 
         <ImageView
@@ -65,8 +66,8 @@
                 app:cpb_start_angle="45"
                 app:cpb_background_progressbar_width="5dp"
                 app:cpb_progress_direction="to_right"
-                app:cpb_progressbar_color="@color/colorSecondaryDark"
-                app:cpb_background_progressbar_color="@color/colorPrimary"
+                app:cpb_progressbar_color="@color/colorPrimaryDark"
+                app:cpb_background_progressbar_color="#D9D9D9"
                 app:cpb_progressbar_width="5dp"
 
                 />

@@ -29,15 +29,19 @@ import com.navdeep.goaltracker.View.GoalActivity;
 import com.navdeep.goaltracker.View.MilestoneActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoalAdapter extends RecyclerAdapter {
     private ArrayList<Goal> goals;
     private Context context;
     private boolean multiSelect = false;
     private ArrayList<Goal> selectedGoals;
+    private TextView goalName, time, progressBarText;
+    private ImageView categoryIcon;
+    private CircularProgressBar progressBar;
+    private ActionMode actionMode;
+    private CardView cardView;
 
-    ActionMode actionMode;
-    CardView cardView;
     private static int[] categoryIcons = {R.drawable.category_education,
             R.drawable.category_exercise,
             R.drawable.category_business,
@@ -60,45 +64,82 @@ public class GoalAdapter extends RecyclerAdapter {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final CardView cardView = holder.getCardView();
-        TextView goalName = cardView.findViewById(R.id.goalName);
-        TextView time = cardView.findViewById(R.id.time);
-        ImageView categoryIcon = cardView.findViewById(R.id.categoryIcon);
-        CircularProgressBar progressBar = cardView.findViewById(R.id.progressBar);
-        TextView progressBarText = cardView.findViewById(R.id.progressBarText);
+        findViewsFromCardView();
         final Goal goal = goals.get(position);
+        setViewsOnCardView(goal);
+        setListenersOnCardView(goal);
+    }
+
+
+    private void findViewsFromCardView() {
+        goalName = cardView.findViewById(R.id.goalName);
+        time = cardView.findViewById(R.id.time);
+        categoryIcon = cardView.findViewById(R.id.categoryIcon);
+        progressBar = cardView.findViewById(R.id.progressBar);
+        progressBarText = cardView.findViewById(R.id.progressBarText);
+
+    }
+
+    private void setViewsOnCardView(Goal goal) {
         String progressText = goal.getGoalProgress()+"%";
         progressBar.setProgress(goal.getGoalProgress());
         progressBarText.setText(progressText);
         categoryIcon.setImageResource(categoryIcons[getCategoryIconIndex(goal)]);
         goalName.setText(getFormattedGoalName(goal));
         time.setText(goal.getGoalStartTimeWithFormat());
+    }
+
+    private String getFormattedGoalName(Goal goal) {
+        String firstLetter = goal.getGoalName().substring(0,1).toUpperCase();
+        String goalName = goal.getGoalName().substring(1).toLowerCase();
+        return firstLetter + goalName;
+    }
+
+    private int getCategoryIconIndex(Goal goal) {
+        int index = categoryNames.length-1;
+        for(int i=0; i<categoryNames.length; ++i) {
+            if(categoryNames[i].equalsIgnoreCase(goal.getCategoryName())) {
+                Log.i("Category", goal.getCategoryName());
+                index = i;
+            }
+        }
+        return  index;
+    }
+
+    private void setListenersOnCardView(Goal goal) {
+        setOnClick(goal);
+        setOnLongClick(goal);
+    }
+
+    private void setOnClick(final Goal goal) {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(multiSelect){
                     selectItem(goal);
                     if (selectedGoals.contains(goal)) {
-                        cardView.setBackgroundColor(Color.LTGRAY);
+                        view.setBackgroundColor(context.getResources().getColor(R.color.baselineErrorColor));
                     } else {
-                        cardView.setBackgroundColor(Color.WHITE);
+                        view.setBackgroundColor(context.getResources().getColor(R.color.baselineSurfaceColor));
                     }
                     actionMode.setTitle(selectedGoals.size()+" selected");
                 }else {
                     ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
                     Intent intent = new Intent(context, MilestoneActivity.class);
-                    intent.putExtra(MilestoneActivity.GOAL_ID, goals.get(position).getGoalId());
+                    intent.putExtra(MilestoneActivity.GOAL_ID, goal.getGoalId());
                     context.startActivity(intent);
                 }
             }
         });
-
+    }
+    private void setOnLongClick(final Goal goal){
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if(!multiSelect) {
                     actionMode = ((AppCompatActivity) view.getContext()).startSupportActionMode(actionModeCallbacks);
                     selectItem(goal);
-                    view.setBackgroundColor(Color.LTGRAY);
+                    view.setBackgroundColor(context.getResources().getColor(R.color.baselineErrorColor));
                     actionMode.setTitle(selectedGoals.size() + " selected");
                     return true;
                 }
@@ -152,22 +193,9 @@ public class GoalAdapter extends RecyclerAdapter {
             }
         }
     }
-    private int getCategoryIconIndex(Goal goal) {
-        int index = categoryNames.length-1;
-        for(int i=0; i<categoryNames.length; ++i) {
-            if(categoryNames[i].equalsIgnoreCase(goal.getCategoryName())) {
-                Log.i("Category", goal.getCategoryName());
-                index = i;
-            }
-        }
-        return  index;
-    }
 
-    private String getFormattedGoalName(Goal goal) {
-        String firstLetter = goal.getGoalName().substring(0,1).toUpperCase();
-        String goalName = goal.getGoalName().substring(1).toLowerCase();
-        return firstLetter + goalName;
-    }
+
+
     @Override
     public int getItemCount() {
         return goals.size();

@@ -14,8 +14,11 @@ import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
 import com.navdeep.goaltracker.Adapters.ViewHolder;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.R;
+import com.navdeep.goaltracker.Utility.GoalUtil;
 import com.navdeep.goaltracker.View.MilestoneInputActivity;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import static com.navdeep.goaltracker.View.MilestoneActivity.milestonePresenter;
 
 
@@ -41,22 +44,27 @@ public class MilestoneAdapter extends RecyclerAdapter {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         CardView cardView = holder.getCardView();
-        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.baselineSurfaceColor));
         TextView dayTitle = cardView.findViewById(R.id.dayTitle);
         TextView milestoneTitle = cardView.findViewById(R.id.milestoneTitle);
         TextView milestoneTimer = cardView.findViewById(R.id.milestoneTimer);
+        TextView milestonetime = cardView.findViewById(R.id.milestoneTime);
+
         TextView milestoneStatus = cardView.findViewById(R.id.task_status);
         dayTitle.setText(String.format("Day %d", (++milestoneCount)));
-
+        Calendar calendar = GoalUtil.getCalendarObject(milestones.get(position).getTime());
+        String title =  GoalUtil.dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+", "+calendar.get(Calendar.DATE)+" "
+                +GoalUtil.months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR);
+        milestonetime.setText(String.format("%s",title));
         milestoneTitle.setText(milestones.get(position).getTitle());
         milestoneTimer.setText(milestones.get(position).getTimer());
         Log.i("MilestoneTimer", milestoneTimer.getText().toString());
         if(!milestoneTimer.getText().toString().trim().equalsIgnoreCase("00:00:00")){
 
-         milestoneStatus.setBackgroundColor(context.getResources().getColor(R.color.colorSecondaryDark));
+         milestoneStatus.setBackgroundColor(context.getResources().getColor(R.color.baselineOkayColor));
 
          milestoneStatus.setBackground(context.getResources().getDrawable(R.drawable.milestone_textview_active_border));
-         dayTitle.setBackgroundColor(context.getResources().getColor(R.color.colorSecondaryDark));
+         dayTitle.setBackgroundColor(context.getResources().getColor(R.color.baselineOkayColor));
 
         }else{
             dayTitle.setBackgroundColor(context.getResources().getColor(R.color.baselineErrorColor));

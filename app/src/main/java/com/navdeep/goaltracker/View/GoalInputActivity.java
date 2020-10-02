@@ -2,11 +2,14 @@ package com.navdeep.goaltracker.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.navdeep.goaltracker.Utility.GoalTime;
 import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
@@ -34,7 +38,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     private GoalModelViewPresenter.GoalInputView goalInputView;
     //private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
     private GoalPresenter goalPresenter;
-
+    private String goalName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +52,12 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         months.setOnItemSelectedListener(this);
         days.setOnItemSelectedListener(this);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Goal Details");
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         goalPresenter = GoalPresenter.getGoalPresenter(GoalInputActivity.this);
         goalPresenter.initGoalDuration();
 
@@ -58,17 +66,20 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         radioButton = findViewById(category.getCheckedRadioButtonId());
         mSaveGoal = findViewById(R.id.saveGoal);
         goalInputView = this;
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mSaveGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int duration = goalPresenter.calculateGoalDuration();
-                goalPresenter.createGoal(radioButton.getText().toString(), mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
-                finish();
+                if(mGoalName.getText().toString().length()<1){
+                    Toast.makeText(GoalInputActivity.this,"Please enter goal name",Toast.LENGTH_LONG).show();
+                }else {
+                    int duration = goalPresenter.calculateGoalDuration();
+                    goalPresenter.createGoal(radioButton.getText().toString(), mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
+                    finish();
+                }
             }
         });
 
-        mSaveGoal.setVisibility(View.INVISIBLE);
         mGoalName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -82,12 +93,7 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
 
             @Override
             public void afterTextChanged(Editable s) {
-             String goalName = s.toString();
-             if(goalName!="" && goalName.length()>1){
-                 mSaveGoal.setVisibility(View.VISIBLE);
-             }else {
-                 mSaveGoal.setVisibility(View.INVISIBLE);
-             }
+
             }
         });
 

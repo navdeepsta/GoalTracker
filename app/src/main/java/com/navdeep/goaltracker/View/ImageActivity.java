@@ -3,6 +3,7 @@ package com.navdeep.goaltracker.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,7 +14,9 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.navdeep.goaltracker.POJOs.MilestoneImage;
 import com.navdeep.goaltracker.Presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImageActivity extends AppCompatActivity {
@@ -34,7 +37,8 @@ public class ImageActivity extends AppCompatActivity {
 
         for(MilestoneImage image : images) {
             if(image.getImageId() == imageId) {
-                imageView.setImageBitmap(image.getBitmap());
+                File file = new File(image.getImageUri());
+                Picasso.with(ImageActivity.this).load(Uri.fromFile(file)).fit().centerCrop().into(imageView);
             }
         }
 

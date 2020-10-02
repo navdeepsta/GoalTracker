@@ -41,7 +41,8 @@ public class GoalTrackerDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IMAGE("
                        + "IMAGE_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                        + "MILESTONE_ID INTEGER NOT NULL,"
-                       + "IMAGE_DATA BLOB, "
+                       + "IMAGE_DATA TEXT, "
+                       + "IMAGE_TIME INTEGER, "
                        + "FOREIGN KEY (MILESTONE_ID) "
                        + "REFERENCES MILESTONE(MILESTONE_ID) ON DELETE CASCADE);");
     }

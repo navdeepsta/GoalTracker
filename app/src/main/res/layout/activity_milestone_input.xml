@@ -17,57 +17,60 @@
            />
    -->
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".20"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@color/light_black"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
-
         <TextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/timer"
+            android:textColor="@color/onSurfaceColor"
+            android:textStyle="bold"
             android:layout_margin="10dp"
             android:padding="10dp"
-            android:textSize="16sp" />
+            android:layout_gravity="center"
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/start"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_play_circle_filled_black_50dp" />
-
 
         <Button
             android:id="@+id/note_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="chooseFragment"
-            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:background="@color/colorAccent"
             android:text="Note" />
 
         <Button
             android:id="@+id/image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="chooseFragment"
-            android:layout_margin="10dp"
-            android:text="Image" />
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:background="@color/colorPrimary"
+            android:text="Images" />
 
     </LinearLayout>
+    
 
     <FrameLayout
         android:id="@+id/frameContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".80"
-        android:background="@color/colorAccent" />
+        android:layout_weight="1"
+        android:background="@color/baselineBackgroundColor" />
 
 
 

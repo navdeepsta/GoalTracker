@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@color/baselineBackgroundColor"
     tools:context=".View.NoteFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -24,7 +24,7 @@
         android:id="@+id/noteDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".85"
+        android:layout_weight=".85 "
         android:hint="@string/note_description_hint"
         android:textSize="20sp"
         android:textColor="@color/light_black"

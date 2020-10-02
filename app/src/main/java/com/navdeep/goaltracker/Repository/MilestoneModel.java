@@ -12,6 +12,7 @@ import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
 import com.navdeep.goaltracker.POJOs.Milestone;
 import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
 import com.navdeep.goaltracker.POJOs.MilestoneImage;
+import com.navdeep.goaltracker.Utility.GoalUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -111,16 +112,19 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         connection.closeDatabase();
     }
 
+    /*Todo
+    *  Instead of storing BLOB for an image, store its URI
+    **/
     @Override
     public void insertImage(int id, MilestoneImage image) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         ContentValues imageContentValues = new ContentValues();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        //Todo
-       image.getBitmap().compress(Bitmap.CompressFormat.JPEG,100,stream);
-        byte[] imageByteArray = stream.toByteArray();
-        imageContentValues.put("MILESTONE_ID" , id);
-        imageContentValues.put("IMAGE_DATA", imageByteArray);
+
+        String imageURI = image.getImageUri();
+        long imageTime =  image.getCalendar().getTimeInMillis();
+        imageContentValues.put("MILESTONE_ID", id);
+        imageContentValues.put("IMAGE_DATA", imageURI);
+        imageContentValues.put("IMAGE_TIME", imageTime);
         goalTrackerDatabase.insert("IMAGE", null, imageContentValues);
         connection.closeDatabase();
     }
@@ -130,15 +134,17 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         ArrayList<MilestoneImage> images = new ArrayList<>();
         Cursor cursor = goalTrackerDatabase.query("IMAGE",
-                new String[]{"IMAGE_ID","MILESTONE_ID","IMAGE_DATA"},
+                new String[]{"IMAGE_ID","MILESTONE_ID","IMAGE_DATA","IMAGE_TIME"},
                 "MILESTONE_ID = ?" ,new String[]{String.valueOf(milestoneId)},null,null,null);
 
         while (cursor.moveToNext()){
             int imageId = cursor.getInt(0);
             int milestone_Id = cursor.getInt(1);
-            byte[] imageByteArray = cursor.getBlob(2);
-            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(imageByteArray,0,imageByteArray.length);
-            images.add(new MilestoneImage(imageId, compressedBitmap, Calendar.getInstance()));
+            String imageUri= cursor.getString(2);
+            long imageTime = cursor.getLong(3);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(imageTime);
+            images.add(new MilestoneImage(imageId, imageUri, calendar));
         }
         cursor.close();
         connection.closeDatabase();

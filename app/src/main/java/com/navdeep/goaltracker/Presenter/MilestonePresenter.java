@@ -52,47 +52,27 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         mMilestoneInputView.showDescription();
         mMilestoneModel.updateMilestoneToDatabase(milestone);
     }
-
+    // todo reduce function size
     @Override
     public void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer) {
         Calendar previousCalendar = GoalUtil.getCalendarObject(previousTime);
         Calendar currentCalendar = GoalUtil.getCalendarObject(currentTime);
-      //  setGoalPreviousAndCurrentTimeToZero(previousCalendar,currentCalendar);
-        long diff = currentCalendar.getTime().getTime() - previousCalendar.getTime().getTime();
-        int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-
+        int diffInDays = getDateDifference(previousCalendar, currentCalendar);
         Goal goal = getGoal(goalId);
-        Calendar goalStartTime = GoalUtil.getCalendarObject(goal.getGoalStartTime());
-        Calendar cloneOfGoalStartTime = (Calendar) goalStartTime.clone();
-        Calendar endDateGoal = Calendar.getInstance();
-        endDateGoal.setTime(cloneOfGoalStartTime.getTime());
 
-        endDateGoal.add(Calendar.DAY_OF_MONTH, duration);
+        Calendar goalStartTime = GoalUtil.getCalendarObject(goal.getGoalStartTime());
+        Calendar endDateGoal = getGoalEndDate(goal, goalStartTime);
+        addMilestones(goal, currentTime, diffInDays, timer);
         // int diffmin = (int) (diff / (60 * 1000));
-        int milestoneListSize = getMilestones(goalId).size();
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        for (int i = 0; i < diffDays; ++i) {
-            if (milestoneListSize < duration) {
-                createMilestone(goalId, "", currentTime, "", timer);
-                calculateAndUpdateGoalProgress(goal, milestoneListSize * hour, duration);
-                milestoneListSize = getMilestones(goalId).size();
-            }
-        }
-        if(currentCalendar.before(endDateGoal)){
-            Log.i("Goal Not ended yet","Before");
-            //start time
-            long td = currentCalendar.getTime().getTime()-goalStartTime.getTime().getTime();
-                int timeDifference =  (int)(td/(60*60*1000));
-                int totalHours = duration * 24;
-                float progress= ((float)timeDifference/(float)totalHours);
-                 int p =  (int)(progress*100);
-                Log.i("Progress",timeDifference+" "+totalHours+" "+p+"");
-                updateGoalProgress(goal, p);
-        }else{
-            Log.i("Goal ended","After");
-            updateGoalProgress(goal, 100);
-        }
+        setGoalProgress(goal, currentCalendar, endDateGoal, goalStartTime);
+
     }
+
+    private int getDateDifference(Calendar previousCalendar, Calendar currentCalendar) {
+        long diff = currentCalendar.getTime().getTime() - previousCalendar.getTime().getTime();
+        return (int) (diff / (24 * 60 * 60 * 1000));
+   }
+
 
     private Goal getGoal(int goalId) {
         ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
@@ -104,6 +84,42 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         }
         return null;
     }
+    private Calendar getGoalEndDate(Goal goal, Calendar goalStartTime) {
+        Calendar cloneOfGoalStartTime = (Calendar) goalStartTime.clone();
+        Calendar endDateGoal = Calendar.getInstance();
+        endDateGoal.setTime(cloneOfGoalStartTime.getTime());
+        endDateGoal.add(Calendar.DAY_OF_MONTH, goal.getDuration());
+        return endDateGoal;
+    }
+
+
+    private void addMilestones(Goal goal, String currentTime, int diffInDays, String timer) {
+        int milestoneListSize = getMilestones(goal.getGoalId()).size();
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        for (int i = 0; i < diffInDays; ++i) {
+            if (milestoneListSize < goal.getDuration()) {
+                createMilestone(goal.getGoalId(), "", currentTime, "", timer);
+           //     calculateAndUpdateGoalProgress(goal, milestoneListSize * hour, goal.getDuration());
+                milestoneListSize = getMilestones(goal.getGoalId()).size();
+            }
+        }
+    }
+    private void setGoalProgress(Goal goal, Calendar currentCalendar, Calendar endDateGoal, Calendar goalStartTime) {
+        setEndDateTimeToZero(endDateGoal);
+        if(currentCalendar.before(endDateGoal)){
+            Log.i("Goal Not ended yet","Before");
+            //start time
+            long td = currentCalendar.getTime().getTime()-goalStartTime.getTime().getTime();
+            int timeDifference =  (int)(td/(60*60*1000));
+            int totalHours = goal.getDuration() * 24;
+            float progress= ((float)timeDifference/(float)totalHours);
+            int p =  (int)(progress*100);
+            updateGoalProgress(goal, p);
+        }else{
+            Log.i("Goal ended","After");
+            updateGoalProgress(goal, 100);
+        }
+    }
     private void calculateAndUpdateGoalProgress(Goal goal, int totalHoursPassed, int duration){
        int goalProgress = (int) (100 * ((float) totalHoursPassed / (float) (duration *24)));
         updateGoalProgress(goal, goalProgress);
@@ -112,6 +128,11 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     private void updateGoalProgress(Goal goal, int goalProgress){
                 goal.setGoalProgress(goalProgress);
                 GoalPresenter.getGoalPresenter().incrementGoalProgress(goal);
+    }
+    private void setEndDateTimeToZero(Calendar currentCalendar){
+        currentCalendar.set(Calendar.HOUR_OF_DAY,0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
     }
 
     @Override
@@ -147,14 +168,6 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         mMilestoneModel.deleteImages(images, milestoneId);
     }
 
-    private void setGoalPreviousAndCurrentTimeToZero(Calendar previousCalendar, Calendar currentCalendar){
-        previousCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        previousCalendar.set(Calendar.MINUTE, 0);
-        previousCalendar.set(Calendar.SECOND, 0);
-        currentCalendar.set(Calendar.HOUR_OF_DAY,0);
-        currentCalendar.set(Calendar.MINUTE, 0);
-        currentCalendar.set(Calendar.SECOND, 0);
-    }
 
 
 
