@@ -1,8 +1,7 @@
-package com.navdeep.goaltracker.Adapters;
+package com.navdeep.goaltracker.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
-import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
-import com.navdeep.goaltracker.Adapters.ViewHolder;
-import com.navdeep.goaltracker.POJOs.Milestone;
+import com.navdeep.goaltracker.pojo.Milestone;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.Utility.GoalUtil;
-import com.navdeep.goaltracker.View.MilestoneInputActivity;
+import com.navdeep.goaltracker.utility.GoalUtil;
+import com.navdeep.goaltracker.view.MilestoneInputActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.navdeep.goaltracker.View.MilestoneActivity.milestonePresenter;
+import static com.navdeep.goaltracker.view.MilestoneActivity.milestonePresenter;
 
 
 public class MilestoneAdapter extends RecyclerAdapter {
@@ -67,7 +64,7 @@ public class MilestoneAdapter extends RecyclerAdapter {
 
     private void setViewsOnCardView(CardView cardView, int position) {
         cardView.setCardBackgroundColor(context.getResources().getColor(R.color.baselineSurfaceColor));
-        dayTitle.setText(String.format("Day %d", (++milestoneCount)));
+        dayTitle.setText(String.format("Day %d", (position+1)));
         milestonetime.setText(String.format("%s",createTitle(position)));
         milestoneTitle.setText(milestones.get(position).getTitle());
         milestoneTimer.setText(milestones.get(position).getTimer());

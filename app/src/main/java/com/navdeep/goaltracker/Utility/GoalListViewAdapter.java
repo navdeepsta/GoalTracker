@@ -1,6 +1,5 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
-import com.navdeep.goaltracker.POJOs.Goal;
+import com.navdeep.goaltracker.pojo.Goal;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;

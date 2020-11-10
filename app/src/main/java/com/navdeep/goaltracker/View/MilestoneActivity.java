@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ListView;
-import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.Adapters.MilestoneAdapter;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.adapters.MilestoneAdapter;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
+import com.navdeep.goaltracker.adapters.RecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class MilestoneActivity extends AppCompatActivity implements MilestoneMod
         milestoneRecycler = findViewById(R.id.milestone_recycler);
 
         goalId = getIntent().getIntExtra(MilestoneActivity.GOAL_ID, 0);
-        milestonePresenter = MilestonePresenter.getMilestonePresenter(this, goalId);
+        milestonePresenter = MilestonePresenter.getMilestonePresenter(MilestoneActivity.this);
     }
 
     @Override

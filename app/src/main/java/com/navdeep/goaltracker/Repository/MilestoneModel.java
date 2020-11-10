@@ -1,20 +1,16 @@
-package com.navdeep.goaltracker.Repository;
+package com.navdeep.goaltracker.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Utility.GoalUtil;
+import com.navdeep.goaltracker.utility.GoalTrackerDatabaseConnection;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -36,7 +32,7 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
     }
 
     @Override
-    public boolean insertMilestone(Milestone milestone, int goalId) {
+    public void insertMilestone(Milestone milestone, int goalId) {
       //  milestones.add(milestone);
        //Log.i("Milestone", "Milestone Inserted");
        // Log.i("Milestone goal", goalId+"");
@@ -54,20 +50,11 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         goalTrackerDatabase.insert("MILESTONE", null, milestoneContentValues);
         //Toast.makeText(context, "Goal Inserted",Toast.LENGTH_SHORT).show();
         connection.closeDatabase();
-        return true;
     }
 
     @Override
-    public ArrayList<Milestone> fetchMilestones(int goalId)
+    public ArrayList<Milestone> getMilestones(int goalId)
     {
-       /* ArrayList<Milestone> m = new ArrayList<>();
-        for(Iterator itr = milestones.iterator(); itr.hasNext(); ){
-            Milestone milestone = (Milestone) itr.next();
-            if(milestone.getGoalId() == goalId){
-                m.add(milestone);
-            }
-        }
-        */
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         Log.i("Goal id", goalId+"");
         milestones = new ArrayList<>();
@@ -96,7 +83,7 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
     }
 
     @Override
-    public void updateMilestoneToDatabase(Milestone milestone) {
+    public void updateMilestone(Milestone milestone) {
     /*TODO*/
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         int milestoneId =  milestone.getMilestoneId();
@@ -130,7 +117,7 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
     }
 
     @Override
-    public ArrayList<MilestoneImage> fetchImages(int milestoneId) {
+    public ArrayList<MilestoneImage> getImages(int milestoneId) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
         ArrayList<MilestoneImage> images = new ArrayList<>();
         Cursor cursor = goalTrackerDatabase.query("IMAGE",
@@ -161,8 +148,5 @@ public class MilestoneModel implements MilestoneModelViewPresenter.MilestoneMode
         }
         goalTrackerDatabase.close();
     }
-    @Override
-    public void loadMilestoneFromDatabase(int milestoneId) {
 
-    }
 }

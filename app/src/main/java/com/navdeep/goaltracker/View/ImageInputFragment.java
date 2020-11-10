@@ -1,11 +1,10 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
@@ -25,25 +23,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.navdeep.goaltracker.Adapters.MilestoneImageAdapter;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.adapters.MilestoneImageAdapter;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.Utility.GoalUtil;
-import com.navdeep.goaltracker.Utility.ImageAdapter;
-import com.squareup.picasso.Picasso;
+import com.navdeep.goaltracker.utility.GoalUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,11 +50,11 @@ public class ImageInputFragment extends Fragment {
     private static final String ARG_MILESTONE_ID = "param2";
     private static final int REQUEST_CAMERA_CODE = 1;
     private static final int REQUEST_PERMISSION = 2;
+    private static final int GALLERY_REQUEST_CODE = 3;
     private int milestoneId, goalId;
     private TextView dateTextView;
-    private Button addImage;
+    private Button addImage, gallery;
     private Milestone milestone;
-    private ImageAdapter imageAdapter;
     private MilestoneImageAdapter milestoneImageAdapter;
     private RecyclerView imageRecycler;
     private String currentPhotoPath;
@@ -97,6 +90,7 @@ public class ImageInputFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_input_image_recycler, container, false);
         imageRecycler = view.findViewById(R.id.image_recycler);
+        gallery = view.findViewById(R.id.gallery);
         addImage = view.findViewById(R.id.add_image);
         dateTextView = view.findViewById(R.id.date);
         milestone = getMilestone();
@@ -105,8 +99,8 @@ public class ImageInputFragment extends Fragment {
                 +GoalUtil.months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR);
        dateTextView.setText(date);
         updateImageAdapter();
-        setListenerOnImageButton();
-        setOnItemClickListenerOnGridView();
+        setListenersOnViews();
+
         return view;
     }
 
@@ -120,11 +114,25 @@ public class ImageInputFragment extends Fragment {
         return null;
     }
 
+    private void setListenersOnViews() {
+        setListenerOnImageButton();
+        setListenerOnGalleryButton();
+    }
+
     private void setListenerOnImageButton() {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 askForCameraPermission();
+            }
+        });
+    }
+    private void setListenerOnGalleryButton() {
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
     }
@@ -193,6 +201,7 @@ public class ImageInputFragment extends Fragment {
                 MilestoneImage image = new MilestoneImage(currentPhotoPath, Calendar.getInstance());
                 MilestonePresenter.getMilestonePresenter().addImage(milestone.getMilestoneId(), image);
                 updateImageAdapter();
+
                // Picasso.with(getActivity()).load(Uri.fromFile(file)).fit().centerCrop().into(image_camera_view);
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(file);
@@ -200,17 +209,30 @@ public class ImageInputFragment extends Fragment {
                 getActivity().sendBroadcast(mediaScanIntent);
             }
         }
+
+        if(requestCode == GALLERY_REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+
+                Uri contentUri = data.getData();
+                currentPhotoPath = contentUri.toString();
+                Log.d("Gallery Path",currentPhotoPath);
+                MilestoneImage image = new MilestoneImage(currentPhotoPath, Calendar.getInstance());
+                MilestonePresenter.getMilestonePresenter().addImage(milestone.getMilestoneId(), image);
+                updateImageAdapter();
+
+               // String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                //String imageFileName = "JPEG_" + timeStamp + "."+geFileExt(contentUri);
+               // Log.d("Gallery Image Uri", imageFileName);
+
+
+            }
+        }
     }
 
-    private void setOnItemClickListenerOnGridView() {
-     /*   gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<MilestoneImage> images = getImages();
-                int imageId =  images.get(position).getImageId();
-                mListener.onImageInputFragmentInteraction(imageId);
-            }
-        });*/
+    private String geFileExt(Uri contentUri) {
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(contentUri));
     }
 
     private void updateImageAdapter(){

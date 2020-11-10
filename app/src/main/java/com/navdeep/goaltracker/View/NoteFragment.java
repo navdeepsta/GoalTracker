@@ -1,7 +1,6 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;

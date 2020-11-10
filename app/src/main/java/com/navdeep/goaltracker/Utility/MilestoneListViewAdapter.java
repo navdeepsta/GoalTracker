@@ -1,20 +1,15 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.navdeep.goaltracker.POJOs.Goal;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Presenter.GoalPresenter;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.Milestone;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.View.MilestoneActivity;
 
 import java.util.ArrayList;
 

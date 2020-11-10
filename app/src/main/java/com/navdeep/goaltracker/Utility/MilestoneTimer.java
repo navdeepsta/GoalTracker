@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 
 
 import android.os.Handler;

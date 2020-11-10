@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Adapters;
+package com.navdeep.goaltracker.adapters;
 
 import android.view.ViewGroup;
 

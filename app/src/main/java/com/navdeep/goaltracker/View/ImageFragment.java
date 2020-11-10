@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 
 public class GoalTime {
     private String[] years;

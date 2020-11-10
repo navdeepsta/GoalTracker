@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,8 +11,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.github.chrisbanes.photoview.PhotoView;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +38,13 @@ public class ImageActivity extends AppCompatActivity {
         for(MilestoneImage image : images) {
             if(image.getImageId() == imageId) {
                 File file = new File(image.getImageUri());
-                Picasso.with(ImageActivity.this).load(Uri.fromFile(file)).fit().centerCrop().into(imageView);
+                if(file.exists()) {
+                    Picasso.with(ImageActivity.this).load(Uri.fromFile(file)).fit().centerCrop().into(imageView);
+                }else{
+                    if(!image.getImageUri().isEmpty()){
+                        Picasso.with(this).load(Uri.parse(image.getImageUri())).fit().centerCrop().into(imageView);
+                    }
+                }
             }
         }
 

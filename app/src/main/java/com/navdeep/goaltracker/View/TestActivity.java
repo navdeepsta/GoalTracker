@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

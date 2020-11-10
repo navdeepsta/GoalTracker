@@ -1,7 +1,7 @@
 /* @author : Navdeep Singh
 *  The class manages a list of goals.
 * */
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,20 +15,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.navdeep.goaltracker.Adapters.GoalAdapter;
-import com.navdeep.goaltracker.Utility.GoalListViewAdapter;
-import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
-import com.navdeep.goaltracker.Presenter.GoalPresenter;
+import com.navdeep.goaltracker.adapters.GoalAdapter;
+import com.navdeep.goaltracker.interfaces.GoalModelViewPresenter;
+import com.navdeep.goaltracker.presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
+import com.navdeep.goaltracker.adapters.RecyclerAdapter;
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
     private static GoalPresenter goalPresenter;
     private RecyclerView goalRecycler;
     private FloatingActionButton floatingActionAddGoal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,15 +58,12 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         return getBaseContext();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.goal_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

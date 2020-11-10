@@ -1,43 +1,35 @@
-package com.navdeep.goaltracker.Presenter;
+package com.navdeep.goaltracker.presenter;
 
 import android.util.Log;
-
-import com.navdeep.goaltracker.Utility.GoalUtil;
-import com.navdeep.goaltracker.POJOs.Goal;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Repository.MilestoneModel;
-
+import com.navdeep.goaltracker.utility.GoalUtil;
+import com.navdeep.goaltracker.pojo.Goal;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
+import com.navdeep.goaltracker.repository.MilestoneModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 
 public class MilestonePresenter implements MilestoneModelViewPresenter.MilestonePresenter, Serializable {
     private static MilestoneModelViewPresenter.MilestoneView mMilestoneView;
     private static MilestoneModelViewPresenter.MilestoneInputView mMilestoneInputView;
     private static MilestoneModelViewPresenter.MilestoneModel mMilestoneModel;
+    private static MilestonePresenter milestonePresenter;
 
-   //public final static String POSITION = "position";
-   private static MilestonePresenter milestonePresenter;
-   private MilestonePresenter(){
+    private MilestonePresenter() {
         mMilestoneModel = MilestoneModel.getMilestoneModel();
-
     }
+
     public static MilestonePresenter getMilestonePresenter() {
-        if(milestonePresenter==null){
+        if(milestonePresenter == null) {
             milestonePresenter = new MilestonePresenter();
         }
         return milestonePresenter;
     }
 
-
-    public static MilestonePresenter getMilestonePresenter(MilestoneModelViewPresenter.MilestoneView view, int goalId){
-
-        mMilestoneView = view;
-        //mMilestoneView.displayMilestones(milestonePresenter.getMilestones(goalId));
-       // goal.getGoalTimer().milestonePresenterWithView(this);
+    public static MilestonePresenter getMilestonePresenter(MilestoneModelViewPresenter.MilestoneView view){
+       mMilestoneView = view;
        return milestonePresenter;
     }
 
@@ -46,44 +38,44 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         return milestonePresenter;
     }
 
-
     @Override
     public void updateMilestone(Milestone milestone) {
         mMilestoneInputView.showDescription();
-        mMilestoneModel.updateMilestoneToDatabase(milestone);
+        mMilestoneModel.updateMilestone(milestone);
     }
-    // todo reduce function size
+
     @Override
-    public void createMilestones(String previousTime, String currentTime, int goalId, int duration, String timer) {
+    public void createMilestones(String previousTime, int goalId, int duration, String timer) {
         Calendar previousCalendar = GoalUtil.getCalendarObject(previousTime);
-        Calendar currentCalendar = GoalUtil.getCalendarObject(currentTime);
+        Calendar currentCalendar = Calendar.getInstance();
+        String currentTime = currentCalendar.getTime().toString();
+
         int diffInDays = getDateDifference(previousCalendar, currentCalendar);
         Goal goal = getGoal(goalId);
 
         Calendar goalStartTime = GoalUtil.getCalendarObject(goal.getGoalStartTime());
         Calendar endDateGoal = getGoalEndDate(goal, goalStartTime);
-        addMilestones(goal, currentTime, diffInDays, timer);
         // int diffmin = (int) (diff / (60 * 1000));
+        addMilestones(goal, previousTime, currentTime, diffInDays, timer);
         setGoalProgress(goal, currentCalendar, endDateGoal, goalStartTime);
 
     }
 
     private int getDateDifference(Calendar previousCalendar, Calendar currentCalendar) {
         long diff = currentCalendar.getTime().getTime() - previousCalendar.getTime().getTime();
-        return (int) (diff / (24 * 60 * 60 * 1000));
+        return (int) (diff / (60 * 60 * 24 * 1000));
    }
-
 
     private Goal getGoal(int goalId) {
         ArrayList<Goal> goals = GoalPresenter.getGoalPresenter().getGoals();
-        for(Iterator itr = goals.iterator(); itr.hasNext();) {
-            Goal goal = (Goal) itr.next();
+        for(Goal goal : goals) {
             if (goal.getGoalId() == goalId) {
               return goal;
             }
         }
         return null;
     }
+
     private Calendar getGoalEndDate(Goal goal, Calendar goalStartTime) {
         Calendar cloneOfGoalStartTime = (Calendar) goalStartTime.clone();
         Calendar endDateGoal = Calendar.getInstance();
@@ -92,21 +84,24 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         return endDateGoal;
     }
 
-
-    private void addMilestones(Goal goal, String currentTime, int diffInDays, String timer) {
+    private void addMilestones(Goal goal, String previousTime, String currentTime, int diffInDays, String timer) {
         int milestoneListSize = getMilestones(goal.getGoalId()).size();
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        Calendar calendar = GoalUtil.getCalendarObject(previousTime);
         for (int i = 0; i < diffInDays; ++i) {
             if (milestoneListSize < goal.getDuration()) {
-                createMilestone(goal.getGoalId(), "", currentTime, "", timer);
-           //     calculateAndUpdateGoalProgress(goal, milestoneListSize * hour, goal.getDuration());
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                setCalendarTimeToZero(calendar);
+                createMilestone(goal.getGoalId(), "", calendar.getTime().toString(), "", timer);
+                calculateAndUpdateGoalProgress(goal, milestoneListSize * hour, goal.getDuration());
                 milestoneListSize = getMilestones(goal.getGoalId()).size();
             }
         }
     }
+
     private void setGoalProgress(Goal goal, Calendar currentCalendar, Calendar endDateGoal, Calendar goalStartTime) {
-        setEndDateTimeToZero(endDateGoal);
-        if(currentCalendar.before(endDateGoal)){
+        setCalendarTimeToZero(endDateGoal);
+        if(currentCalendar.before(endDateGoal)) {
             Log.i("Goal Not ended yet","Before");
             //start time
             long td = currentCalendar.getTime().getTime()-goalStartTime.getTime().getTime();
@@ -115,11 +110,18 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
             float progress= ((float)timeDifference/(float)totalHours);
             int p =  (int)(progress*100);
             updateGoalProgress(goal, p);
-        }else{
+        }else {
             Log.i("Goal ended","After");
             updateGoalProgress(goal, 100);
         }
     }
+
+    private void setCalendarTimeToZero(Calendar currentCalendar) {
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+    }
+
     private void calculateAndUpdateGoalProgress(Goal goal, int totalHoursPassed, int duration){
        int goalProgress = (int) (100 * ((float) totalHoursPassed / (float) (duration *24)));
         updateGoalProgress(goal, goalProgress);
@@ -128,11 +130,6 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     private void updateGoalProgress(Goal goal, int goalProgress){
                 goal.setGoalProgress(goalProgress);
                 GoalPresenter.getGoalPresenter().incrementGoalProgress(goal);
-    }
-    private void setEndDateTimeToZero(Calendar currentCalendar){
-        currentCalendar.set(Calendar.HOUR_OF_DAY,0);
-        currentCalendar.set(Calendar.MINUTE, 0);
-        currentCalendar.set(Calendar.SECOND, 0);
     }
 
     @Override
@@ -147,20 +144,8 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
     }
 
     @Override
-    public void setMilestoneTime(String time) {
-        //Todo : Insert MilestoneTime into database
-
-    }
-
-    @Override
-    public String getMilestoneTime() {
-        // Todo : Fetch MilestoneTime From database
-        return null;
-    }
-
-    @Override
     public ArrayList<MilestoneImage> getImages(int milestoneId) {
-       return mMilestoneModel.fetchImages(milestoneId);
+       return mMilestoneModel.getImages(milestoneId);
     }
 
     @Override
@@ -168,17 +153,8 @@ public class MilestonePresenter implements MilestoneModelViewPresenter.Milestone
         mMilestoneModel.deleteImages(images, milestoneId);
     }
 
-
-
-
     @Override
     public ArrayList<Milestone> getMilestones(int goadId) {
-        return mMilestoneModel.fetchMilestones(goadId);
+        return mMilestoneModel.getMilestones(goadId);
     }
-
-    public MilestoneModelViewPresenter.MilestoneView getMileStoneView(){
-        return mMilestoneView;
-    }
-
-
 }

@@ -1,33 +1,20 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
 import com.navdeep.goaltracker.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
@@ -74,8 +61,6 @@ public class ImageAdapter extends BaseAdapter {
         else {
             Log.d("File Status", "File has been deleted in the gallery");
         }
-
-
         return imageView;
     }
 }

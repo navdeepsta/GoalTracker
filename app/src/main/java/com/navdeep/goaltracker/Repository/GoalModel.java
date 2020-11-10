@@ -1,28 +1,24 @@
-package com.navdeep.goaltracker.Repository;
+package com.navdeep.goaltracker.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.navdeep.goaltracker.Utility.GoalTrackerDatabaseConnection;
-import com.navdeep.goaltracker.POJOs.Goal;
-import com.navdeep.goaltracker.Interfaces.GoalModelViewPresenter;
+import com.navdeep.goaltracker.utility.GoalTrackerDatabaseConnection;
+import com.navdeep.goaltracker.pojo.Goal;
+import com.navdeep.goaltracker.interfaces.GoalModelViewPresenter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class GoalModel implements GoalModelViewPresenter.GoalModel {
     private ArrayList<Goal> goals;
-    private Context context;
     private GoalTrackerDatabaseConnection connection;
+
     public GoalModel(Context context) {
-        this.context = context;
         goals = new ArrayList<>();
         connection = GoalTrackerDatabaseConnection.getConnection(context);
-
     }
-
 
     @Override
     public void insertGoal(Goal goal) {
@@ -48,6 +44,7 @@ public class GoalModel implements GoalModelViewPresenter.GoalModel {
         Cursor cursor = goalTrackerDatabase.query("GOAL",
                 new String[]{"GOAL_ID", "GOAL_CATEGORY", "GOAL_NAME", "GOAL_START_TIME", "GOAL_DURATION", "GOAL_PROGRESS"},
                 null, null, null, null, null);
+
         while (cursor.moveToNext()) {
             int goalId = cursor.getInt(0);
             String goalCategory = cursor.getString(1);
@@ -58,6 +55,7 @@ public class GoalModel implements GoalModelViewPresenter.GoalModel {
             Goal goal = new Goal(goalId, goalCategory, goalName,goalStartTime,goalDuration, goalProgress);
             goals.add(goal);
         }
+
         cursor.close();
         connection.closeDatabase();
         return goals;
@@ -80,8 +78,7 @@ public class GoalModel implements GoalModelViewPresenter.GoalModel {
     @Override
     public void deleteGoals(ArrayList<Goal> selectedGoals) {
         SQLiteDatabase goalTrackerDatabase = connection.openDatabase();
-        for(Iterator itr = selectedGoals.iterator(); itr.hasNext();){
-            Goal goal = (Goal)itr.next();
+        for(Goal goal : selectedGoals){
             goalTrackerDatabase.delete("GOAL",
                     "GOAL_ID = ?",
                     new String[]{ String.valueOf(goal.getGoalId())});

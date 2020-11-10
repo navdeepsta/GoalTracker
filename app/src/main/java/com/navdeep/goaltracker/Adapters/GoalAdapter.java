@@ -1,9 +1,8 @@
-package com.navdeep.goaltracker.Adapters;
+package com.navdeep.goaltracker.adapters;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,16 +19,13 @@ import androidx.appcompat.view.ActionMode;
 import androidx.cardview.widget.CardView;
 
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
-import com.navdeep.goaltracker.Adapters.RecyclerAdapter;
-import com.navdeep.goaltracker.Adapters.ViewHolder;
-import com.navdeep.goaltracker.POJOs.Goal;
-import com.navdeep.goaltracker.Presenter.GoalPresenter;
+import com.navdeep.goaltracker.pojo.Goal;
+import com.navdeep.goaltracker.presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.View.GoalActivity;
-import com.navdeep.goaltracker.View.MilestoneActivity;
+import com.navdeep.goaltracker.view.GoalActivity;
+import com.navdeep.goaltracker.view.MilestoneActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GoalAdapter extends RecyclerAdapter {
     private ArrayList<Goal> goals;
@@ -132,6 +128,7 @@ public class GoalAdapter extends RecyclerAdapter {
             }
         });
     }
+
     private void setOnLongClick(final Goal goal){
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -186,15 +183,11 @@ public class GoalAdapter extends RecyclerAdapter {
         if (multiSelect) {
             if (selectedGoals.contains(goal)) {
                 selectedGoals.remove(goal);
-            //    cardView.setBackgroundColor(Color.WHITE);
             } else {
                 selectedGoals.add(goal);
-              //  cardView.setBackgroundColor(Color.LTGRAY);
             }
         }
     }
-
-
 
     @Override
     public int getItemCount() {

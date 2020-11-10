@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.View;
+package com.navdeep.goaltracker.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.navdeep.goaltracker.Interfaces.MilestoneModelViewPresenter;
-import com.navdeep.goaltracker.Utility.MilestoneTimer;
-import com.navdeep.goaltracker.POJOs.Milestone;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.interfaces.MilestoneModelViewPresenter;
+import com.navdeep.goaltracker.utility.MilestoneTimer;
+import com.navdeep.goaltracker.pojo.Milestone;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
 
 import java.util.ArrayList;

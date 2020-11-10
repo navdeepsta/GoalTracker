@@ -14,15 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.ImageActivity"
+        <activity android:name=".view.ImageActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".View.TestActivity" />
+        <activity android:name=".view.TestActivity" />
+
         <activity
-            android:name=".View.MilestoneImageActivity"
-            android:label="Gallery" />
-        <activity
-            android:name=".View.MilestoneInputActivity"
+            android:name=".view.MilestoneInputActivity"
             android:screenOrientation="portrait"
             android:label="Task Details" />
         <provider
@@ -35,15 +33,15 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
         <activity
-            android:name=".View.MilestoneActivity"
+            android:name=".view.MilestoneActivity"
             android:label="Tasks"
-            android:parentActivityName=".View.GoalActivity" >
+            android:parentActivityName=".view.GoalActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.GoalActivity" />
+                android:value=".view.GoalActivity" />
         </activity>
         <activity
-            android:name=".View.GoalActivity"
+            android:name=".view.GoalActivity"
             android:label="Goals"
             >
             <intent-filter>
@@ -53,12 +51,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.GoalInputActivity"
+            android:name=".view.GoalInputActivity"
             android:label="Goal Details"
-            android:parentActivityName=".View.GoalActivity">
+            android:parentActivityName=".view.GoalActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.GoalActivity" />
+                android:value=".view.GoalActivity" />
         </activity>
     </application>
 

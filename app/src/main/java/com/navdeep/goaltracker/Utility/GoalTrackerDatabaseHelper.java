@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

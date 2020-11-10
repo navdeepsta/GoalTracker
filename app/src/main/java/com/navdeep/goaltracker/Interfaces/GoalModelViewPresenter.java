@@ -1,15 +1,16 @@
 /* Applying knowledge gained from Code Clean
 *  Converting names to meaningful, informative and unambiguous names
 */
-package com.navdeep.goaltracker.Interfaces;
+package com.navdeep.goaltracker.interfaces;
 import android.content.Context;
-
-import com.navdeep.goaltracker.Utility.GoalTime;
-import com.navdeep.goaltracker.POJOs.Goal;
+import com.navdeep.goaltracker.utility.GoalTime;
+import com.navdeep.goaltracker.pojo.Goal;
 import java.util.ArrayList;
 
 public interface GoalModelViewPresenter {
-    interface GoalPresenter{
+    String TIMER = "00:00:00";
+
+    interface GoalPresenter {
         void createGoal(String categoryName, String goalName, String goalStartTime, int duration, int goalProgress);
         void deleteGoals(ArrayList<Goal> goals);
         ArrayList<Goal> getGoals();
@@ -20,14 +21,17 @@ public interface GoalModelViewPresenter {
         void closeGoalTrackerDatabase();
         void initiateMilestones();
     }
-    interface GoalView{
+
+    interface GoalView {
         void displayGoals();
         Context getContext();
     }
-    interface GoalInputView{
+
+    interface GoalInputView {
        void displayGoalDuration(GoalTime goalTime);
     }
-    interface GoalModel{
+
+    interface GoalModel {
         void insertGoal(Goal goal);
         ArrayList<Goal> getGoals();
         void updateGoal(Goal goal);

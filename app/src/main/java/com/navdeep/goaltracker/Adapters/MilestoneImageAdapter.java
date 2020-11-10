@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Adapters;
+package com.navdeep.goaltracker.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.navdeep.goaltracker.POJOs.MilestoneImage;
-import com.navdeep.goaltracker.Presenter.MilestonePresenter;
+import com.navdeep.goaltracker.pojo.MilestoneImage;
+import com.navdeep.goaltracker.presenter.MilestonePresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.View.MilestoneInputActivity;
+import com.navdeep.goaltracker.view.MilestoneInputActivity;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
@@ -69,21 +69,35 @@ public class MilestoneImageAdapter extends RecyclerAdapter {
     }
 
     private void setViewsOnCardView(MilestoneImage milestoneImage) {
-        File file = new File(milestoneImage.getImageUri());
-        if(file.exists()) {
-            Picasso.with(context).load(Uri.fromFile(file)).fit().centerCrop().into(milestoneImageView);
-            milestoneImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Calendar calendar = milestoneImage.getCalendar();
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minutes = calendar.get(Calendar.MINUTE);
-            int seconds = calendar.get(Calendar.SECOND);
-            String time = hour+":"+minutes+":"+seconds;
-            imageTime.setText(time);
-            Log.d("Time", imageTime.getText().toString());
-        }else {
-            Log.d("File Status", "File has been deleted in the gallery");
+        //
+            File file = new File(milestoneImage.getImageUri());
+            if (file.exists()) {
+                Picasso.with(context).load(Uri.fromFile(file)).fit().centerCrop().into(milestoneImageView);
+                milestoneImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageTime.setText(getTimeStamp(milestoneImage));
+
+            } else {
+               if(!milestoneImage.getImageUri().isEmpty()){
+
+                    Picasso.with(context).load(Uri.parse(milestoneImage.getImageUri()))
+                            .fit().centerCrop()
+                            .into(milestoneImageView);
+                    imageTime.setText(getTimeStamp(milestoneImage));
+                   Log.d("File Status", "File has been deleted in the gallery");
+                   Log.d("File", milestoneImage.getImageUri());
+               }
+
+            }
         }
+
+    private String getTimeStamp(MilestoneImage milestoneImage) {
+        Calendar calendar = milestoneImage.getCalendar();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        int seconds = calendar.get(Calendar.SECOND);
+       return  hour + ":" + minutes + ":" + seconds;
     }
+
 
     private void setListenersOnCardView(MilestoneImage milestoneImage) {
         setOnClick(milestoneImage);

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 <LinearLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/baselineBackgroundColor">
+    android:background="@color/baselineBackgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/date"
         android:layout_height="wrap_content"
@@ -21,19 +19,52 @@
         android:layout_gravity="center"
         />
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:id="@+id/image_recycler"
         android:scrollbars="vertical"
         android:background="@color/baselineBackgroundColor"
         />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/colorSecondary"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                >
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:background="@drawable/ic_baseline_insert_photo_24"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/add_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:background="@drawable/ic_photo_camera_24dp"
+                />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
 </LinearLayout>
-    <Button
-        android:id="@+id/add_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:background="@drawable/ic_photo_camera_24dp"
-        />
-</FrameLayout>

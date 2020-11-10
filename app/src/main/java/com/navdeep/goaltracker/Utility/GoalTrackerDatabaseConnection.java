@@ -1,4 +1,4 @@
-package com.navdeep.goaltracker.Utility;
+package com.navdeep.goaltracker.utility;
 
 
 import android.content.Context;
@@ -20,6 +20,7 @@ public class GoalTrackerDatabaseConnection {
         }
         return connection;
     }
+
     public SQLiteDatabase openDatabase(){
         goalTrackerDatabase = goalTrackerDatabaseHelper.getReadableDatabase();
         return goalTrackerDatabase;
