@@ -26,7 +26,7 @@ import com.navdeep.goaltracker.R;
 import java.util.ArrayList;
 
 public class MilestoneInputActivity extends AppCompatActivity implements MilestoneModelViewPresenter.MilestoneInputView
-,NoteFragment.OnNoteFragmentInteractionListener, ImageInputFragment.OnImageInputFragmentInteractionListener, ImageFragment.OnFragmentInteractionListener{
+,NoteFragment.OnNoteFragmentInteractionListener, ImageInputFragment.OnImageInputFragmentInteractionListener {
     public static final String INPUT_FLAG = "inputflag";
     public static final String MILESTONE_ID = "milestonePosition";
     public static final String GOAL_ID = "goalId";
@@ -219,12 +219,6 @@ public class MilestoneInputActivity extends AppCompatActivity implements Milesto
         milestone.setTimer(milestoneTimer.getMilestoneTimer());
         milestonePresenter.updateMilestone(milestone);
     }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
 
     @Override
     public void onNoteFragmentInteraction(Milestone milestone) {

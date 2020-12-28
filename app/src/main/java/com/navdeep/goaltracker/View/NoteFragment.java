@@ -166,7 +166,6 @@ public class NoteFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnNoteFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onNoteFragmentInteraction(Milestone milestone);
     }
 }

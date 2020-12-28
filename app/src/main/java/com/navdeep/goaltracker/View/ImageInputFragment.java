@@ -61,11 +61,8 @@ public class ImageInputFragment extends Fragment {
     private OnImageInputFragmentInteractionListener mListener;
 
     public ImageInputFragment() {
-        // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static ImageInputFragment newInstance(int goalId, int milestoneId) {
         ImageInputFragment fragment = new ImageInputFragment();
         Bundle args = new Bundle();
@@ -95,9 +92,9 @@ public class ImageInputFragment extends Fragment {
         dateTextView = view.findViewById(R.id.date);
         milestone = getMilestone();
         Calendar calendar = GoalUtil.getCalendarObject(milestone.getTime());
-       String date = GoalUtil.dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+", "+calendar.get(Calendar.DATE)+" "
+        String date = GoalUtil.dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)]+", "+calendar.get(Calendar.DATE)+" "
                 +GoalUtil.months[calendar.get(Calendar.MONTH)]+" "+calendar.get(Calendar.YEAR);
-       dateTextView.setText(date);
+        dateTextView.setText(date);
         updateImageAdapter();
         setListenersOnViews();
 

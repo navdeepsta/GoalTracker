@@ -11,7 +11,7 @@ public interface GoalModelViewPresenter {
     String TIMER = "00:00:00";
 
     interface GoalPresenter {
-        void createGoal(String categoryName, String goalName, String goalStartTime, int duration, int goalProgress);
+        void createGoal(int goalId, String categoryName, String goalName, String goalStartTime, int duration, int goalProgress);
         void deleteGoals(ArrayList<Goal> goals);
         ArrayList<Goal> getGoals();
         void incrementGoalProgress(Goal goal);

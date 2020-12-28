@@ -1,5 +1,5 @@
 /* @author : Navdeep Singh
-*  The class manages a list of goals.
+*  
 * */
 package com.navdeep.goaltracker.view;
 
@@ -15,13 +15,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.navdeep.goaltracker.adapters.GoalAdapter;
 import com.navdeep.goaltracker.interfaces.GoalModelViewPresenter;
 import com.navdeep.goaltracker.presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
 import com.navdeep.goaltracker.adapters.RecyclerAdapter;
+
 
 public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
     private static GoalPresenter goalPresenter;

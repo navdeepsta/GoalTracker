@@ -27,45 +27,50 @@ import com.navdeep.goaltracker.R;
 import java.util.Calendar;
 
 public class GoalInputActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalInputView, AdapterView.OnItemSelectedListener {
+    private static int GOAL_ID_DEFAULT = 0;
+    private EditText mGoalName;
+    private Spinner years, months, days;
     private RadioGroup category;
     private RadioButton radioButton;
-    private EditText mGoalName;
-    private EditText mGoalDuration;
     private Button mSaveGoal;
-    private ImageView durationIcon, categoryIcon;
-    private Spinner years, months, days;
-    private GoalModelViewPresenter.GoalInputView goalInputView;
-    //private MilestoneModelViewPresenter.MilestonePresenter milestonePresenter;
     private GoalPresenter goalPresenter;
-    private String goalName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_input);
+        findViewsFromLayout();
+        setListeners();
+        setToobar();
+
+    }
+
+    private void findViewsFromLayout() {
         mGoalName = findViewById(R.id.goalName);
         years = findViewById(R.id.years);
         months =  findViewById(R.id.months);
         days =  findViewById(R.id.days);
-        durationIcon = findViewById(R.id.duration);
+        category = findViewById(R.id.category);
+        radioButton = findViewById(category.getCheckedRadioButtonId());
+        mSaveGoal = findViewById(R.id.saveGoal);
+
+    }
+
+    private void setListeners() {
+        setListenerOnSpinner();
+        setListenerOnButton();
+        setListenerOnTextField();
+
+    }
+
+    private void setListenerOnSpinner() {
         years.setOnItemSelectedListener(this);
         months.setOnItemSelectedListener(this);
         days.setOnItemSelectedListener(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Goal Details");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
-        goalPresenter = GoalPresenter.getGoalPresenter(GoalInputActivity.this);
-        goalPresenter.initGoalDuration();
-
-        categoryIcon = findViewById(R.id.categoryIcon);
-        category = findViewById(R.id.category);
-        radioButton = findViewById(category.getCheckedRadioButtonId());
-        mSaveGoal = findViewById(R.id.saveGoal);
-        goalInputView = this;
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    private void setListenerOnButton() {
         mSaveGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,12 +78,15 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
                     Toast.makeText(GoalInputActivity.this,"Please enter goal name",Toast.LENGTH_LONG).show();
                 }else {
                     int duration = goalPresenter.calculateGoalDuration();
-                    goalPresenter.createGoal(radioButton.getText().toString(), mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
+                    goalPresenter.createGoal(GOAL_ID_DEFAULT, radioButton.getText().toString(), mGoalName.getText().toString(), Calendar.getInstance().getTime().toString(), duration, 0);
                     finish();
                 }
             }
         });
 
+    }
+
+    private void setListenerOnTextField() {
         mGoalName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,12 +107,22 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     }
 
 
+    private void setToobar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Goal Details");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
     /* Removed duplication to reduce the function size, resulted in better readability */
     @Override
     public void displayGoalDuration(GoalTime goalTime) {
         years.setAdapter(getGoalSubDurationAdapter(goalTime.getYears()));
         months.setAdapter(getGoalSubDurationAdapter(goalTime.getMonths()));
         days.setAdapter(getGoalSubDurationAdapter(goalTime.getDays()));
+
     }
 
     private ArrayAdapter<String> getGoalSubDurationAdapter(String[] goalTimeUnit){
@@ -113,11 +131,12 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
         goalSubDuration.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         return goalSubDuration;
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String msg = "";
+
         switch (parent.getId()){
             case R.id.years:
                 String y = (String)parent.getItemAtPosition(position);
@@ -137,7 +156,6 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
                 default:
         }
 
-
     }
 
 
@@ -145,8 +163,18 @@ public class GoalInputActivity extends AppCompatActivity implements GoalModelVie
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     public void checkButton(View view) {
         int radioId = category.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        goalPresenter = GoalPresenter.getGoalPresenter(GoalInputActivity.this);
+        goalPresenter.initGoalDuration();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 }

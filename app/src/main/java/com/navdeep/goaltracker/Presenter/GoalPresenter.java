@@ -43,8 +43,8 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
     }
 
     @Override
-    public void createGoal(String categoryName, String goalName, String goalStartTime, int duration, int goalProgress) {
-        Goal goal = new Goal(categoryName,goalName,goalStartTime, duration, goalProgress);
+    public void createGoal(int goalId, String categoryName, String goalName, String goalStartTime, int duration, int goalProgress) {
+        Goal goal = new Goal(goalId, categoryName,goalName,goalStartTime, duration, goalProgress);
         mGoalModel.insertGoal(goal);
         mGoalView.displayGoals();
     }
@@ -89,7 +89,7 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
     }
 
     /*
-    *  This function handles various scenarios of creating milestones
+    *  This function handles various scenarios for creating milestones
     *  1. User creates a new goal and visits it on the same day
     *  2. User creates a new goal but does not visit it on the same day
     *  3. User visits one of the saved goals

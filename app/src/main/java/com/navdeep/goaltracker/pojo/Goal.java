@@ -1,6 +1,6 @@
 package com.navdeep.goaltracker.pojo;
 import com.navdeep.goaltracker.utility.GoalUtil;
-public class Goal{
+public class Goal {
     private int goalId;
     private String categoryName;
     private String goalName;
@@ -8,16 +8,12 @@ public class Goal{
     private int goalProgress;
     private String goalStartTime;
 
-    public Goal(String categoryName,String goalName, String goalStartTime, int goalDuration, int goalProgress){
+    public Goal(int goalId, String categoryName, String goalName, String goalStartTime, int goalDuration, int goalProgress){
         this.categoryName = categoryName;
         this.goalName = goalName;
         this.goalDuration = goalDuration;
         this.goalStartTime = goalStartTime;
         this.goalProgress = goalProgress;
-    }
-
-    public Goal(int goalId, String categoryName, String goalName, String goalStartTime, int goalDuration, int goalProgress){
-        this(categoryName, goalName, goalStartTime, goalDuration, goalProgress);
         this.goalId = goalId;
     }
 
