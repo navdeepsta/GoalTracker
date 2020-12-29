@@ -2,55 +2,60 @@
 *  
 * */
 package com.navdeep.goaltracker.view;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.navdeep.goaltracker.adapters.GoalAdapter;
+import android.view.inputmethod.InputMethodManager;
 import com.navdeep.goaltracker.interfaces.GoalModelViewPresenter;
 import com.navdeep.goaltracker.presenter.GoalPresenter;
 import com.navdeep.goaltracker.R;
-import com.navdeep.goaltracker.adapters.RecyclerAdapter;
 
+public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView,
+        GoalFragment.GoalFragmentListener, GoalInputFragment.GoalInputFragmentListener {
 
-public class GoalActivity extends AppCompatActivity implements GoalModelViewPresenter.GoalView {
     private static GoalPresenter goalPresenter;
-    private RecyclerView goalRecycler;
-    private FloatingActionButton floatingActionAddGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_recycler);
+        goalPresenter = GoalPresenter.getGoalPresenter(this);
+        createGoalFragment();
+
+    }
+
+    public void createGoalFragment() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        goalRecycler = findViewById(R.id.goal_recycler);
-        floatingActionAddGoal = findViewById(R.id.floatingActionAddGoal);
-        goalPresenter = GoalPresenter.getGoalPresenter(this);
+        GoalFragment goalFragment = GoalFragment.newInstance(null,null);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameContainer, goalFragment)
+                .commit();
+        hideKeypad();
 
-        floatingActionAddGoal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GoalActivity.this, GoalInputActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
+
+    private void hideKeypad() {
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    public void displayGoals() {
-        updateGoalRecyclerViewAdapter();
+    public void createGoalInputFragment() {
+        GoalInputFragment goalInputFragment = GoalInputFragment.newInstance(null,null);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameContainer, goalInputFragment)
+                .commit();
+
     }
 
     @Override
@@ -63,32 +68,27 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.goal_menu, menu);
         return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
+        
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         goalPresenter.closeGoalTrackerDatabase();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         goalPresenter.initiateMilestones(); //update progress bar
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -96,13 +96,7 @@ public class GoalActivity extends AppCompatActivity implements GoalModelViewPres
         super.onStart();
         goalPresenter.createGoalTrackerDatabase();
         goalPresenter.initiateMilestones(); // update progress bar
-        updateGoalRecyclerViewAdapter();
-    }
+        createGoalFragment();
 
-    private void updateGoalRecyclerViewAdapter(){
-        RecyclerAdapter goalAdapter = new GoalAdapter(goalPresenter.getGoals(), this);
-        goalRecycler.setAdapter(goalAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        goalRecycler.setLayoutManager(layoutManager);
     }
 }

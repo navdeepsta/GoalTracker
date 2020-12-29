@@ -50,14 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.GoalInputActivity"
-            android:label="Goal Details"
-            android:parentActivityName=".view.GoalActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.GoalActivity" />
-        </activity>
     </application>
 
 </manifest>

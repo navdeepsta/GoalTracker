@@ -1,5 +1,4 @@
 package com.navdeep.goaltracker.view;
-
 import android.content.Context;
 import android.os.Bundle;
 

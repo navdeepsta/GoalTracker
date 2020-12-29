@@ -15,7 +15,6 @@ public interface GoalModelViewPresenter {
         void deleteGoals(ArrayList<Goal> goals);
         ArrayList<Goal> getGoals();
         void incrementGoalProgress(Goal goal);
-        void initGoalDuration();
         int calculateGoalDuration();
         void createGoalTrackerDatabase();
         void closeGoalTrackerDatabase();
@@ -23,7 +22,6 @@ public interface GoalModelViewPresenter {
     }
 
     interface GoalView {
-        void displayGoals();
         Context getContext();
     }
 

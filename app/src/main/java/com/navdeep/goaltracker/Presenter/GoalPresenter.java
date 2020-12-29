@@ -46,7 +46,6 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
     public void createGoal(int goalId, String categoryName, String goalName, String goalStartTime, int duration, int goalProgress) {
         Goal goal = new Goal(goalId, categoryName,goalName,goalStartTime, duration, goalProgress);
         mGoalModel.insertGoal(goal);
-        mGoalView.displayGoals();
     }
 
     @Override
@@ -62,11 +61,6 @@ public class GoalPresenter implements GoalModelViewPresenter.GoalPresenter {
     @Override
     public void incrementGoalProgress(Goal goal) {
         mGoalModel.updateGoal(goal);
-    }
-
-    @Override
-    public void initGoalDuration() {
-        mGoalInputView.displayGoalDuration(new GoalTime());
     }
 
     @Override

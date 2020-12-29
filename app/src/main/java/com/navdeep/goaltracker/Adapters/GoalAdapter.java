@@ -1,6 +1,7 @@
 package com.navdeep.goaltracker.adapters;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -164,6 +165,7 @@ public class GoalAdapter extends RecyclerAdapter {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             if(item.getItemId() == R.id.delete_Goal) {
                 GoalPresenter.getGoalPresenter().deleteGoals(selectedGoals);
+                ((GoalActivity)context).createGoalFragment();
                 mode.finish();
                return true;
             }
@@ -174,8 +176,6 @@ public class GoalAdapter extends RecyclerAdapter {
         public void onDestroyActionMode(ActionMode mode) {
             multiSelect = false;
             selectedGoals.clear();
-            GoalActivity activity = (GoalActivity) context;
-            activity.displayGoals();
 
         }
     };
